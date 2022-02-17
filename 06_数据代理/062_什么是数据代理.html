@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>数据代理：通过对一个对象代理 对 另一个对象中属性的操作(读/写)</h1>
+</body>
+<script>
+    let obj1 = {
+        x: 100
+    }
+    let obj2 = {
+        y: 200
+    }
+    Object.defineProperty(obj2, 'x', {
+        get() {
+            return obj1.x
+        },
+        set(newVal) {
+            obj1.x = newVal
+        }
+    })
+</script>
+
+</html>
