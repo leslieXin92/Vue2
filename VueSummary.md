@@ -477,6 +477,8 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202180155379.png)
+
 #### summary：
 
 1. Vue中的数据代理：通过vm对象来代理data对象中属性的操作（读 / 写）。
