@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 10px;
+        }
+
+        .box {
+            display: flex;
+            justify-content: space-around;
+            width: 400px;
+            height: auto;
+            background-color: paleturquoise;
+        }
+
+        .father {
+            margin: auto;
+            padding: 5px;
+            border: 2px solid red;
+            background-color: paleturquoise;
+        }
+
+        .son {
+            background-color: orangered;
+        }
+
+        ul {
+            list-style: none;
+            border: 2px solid red;
+            width: 250px;
+            height: 200px;
+            overflow: scroll;
+        }
+
+        li {
+            height: 100px;
+            background-color: orangered;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1>hello {{name}}</h1>
+        <!--? 阻止默认事件 -->
+        <div class="box">
+            <a href="http://www.baidu.com" @click="showAge1">阻止默认事件</a>
+            <a href="http://www.baidu.com" @click.prevent="showAge2">func.prevent</a>
+        </div>
+        <!--? 阻止事件冒泡 -->
+        <div class="box">
+            <div @click="showAge3">
+                <button @click="showAge3">阻止事件冒泡</button>
+            </div>
+            <div @click="showAge4">
+                <button @click.stop="showAge4">func.stop</button>
+                <a href="http://www.baidu.com" @click.prevent.stop="showAge4">可以叠加</a>
+            </div>
+        </div>
+        <!--? 事件只触发一次 -->
+        <div class="box">
+            <button @click="showAge5" class="Oncebtn">事件只触发一次</button>
+            <button @click.once="showAge6">func.once</button>
+        </div>
+        <!--? 捕获阶段出发回调 -->
+        <div class="box">
+            <div class="father captureBegin" @click="showAge7(0)">
+                father
+                <div class="son" @click="showAge7(1)">son</div>
+            </div>
+            <div class="father" @click.capture="showAge8(0)">
+                father
+                <div class="son" @click="showAge8(1)">son</div>
+            </div>
+        </div>
+        <!--? 只有event.target是当前操作的元素时才触发事件 -->
+        <div class="box">
+            <div @click.self="showAge9">
+                <button @click="showAge9">只有event.target是当前操作的元素时才触发事件</button>
+            </div>
+        </div>
+        <!--? 时间的默认行为会立即执行，无需等待事件回调执行完毕 -->
+        <div class="box">
+            <ul @wheel.passive="showAge10">
+                <li>html</li>
+                <li>css</li>
+                <li>javaScript</li>
+                <li>Vue</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        },
+        methods: {
+            // 阻止默认事件 
+            showAge1(e) {
+                e.preventDefault()
+                alert(`my age is ${this.age}`)
+            },
+            showAge2() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 阻止事件冒泡
+            showAge3(e) {
+                e.stopPropagation()
+                alert(`my age is ${this.age}`)
+            },
+            showAge4() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 事件只触发一次
+            // document.querySelector('.onceBtn').onclick = showAge5()
+            showAge5() {
+                alert(`my age is ${this.age}`)
+                // document.querySelector('.onceBtn').onclick = ''
+            },
+            showAge6() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 捕获阶段触发回调
+            // const captureBeginEl = document.querySelector('.captureBegin')
+            // captureBeginEl.addEventListener('click',showAge7,false)
+            showAge7(num) {
+                const msg = num === 0 ? 'my age is' : 'my ChineseAge is'
+                alert(`${msg} ${this.age+num}`)
+            },
+            showAge8(num) {
+                const msg = num === 0 ? 'my age is' : 'my ChineseAge is'
+                alert(`${msg} ${this.age+num}`)
+            },
+
+            // 只有event.target是当前操作的元素时才触发事件
+            showAge9() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 时间的默认行为会立即执行，无需等待事件回调执行完毕
+            // 默认顺序为：点击按钮 => 执行回调 => 执行默认事件
+            showAge10() {
+                for (let i = 0; i < 10000; i++) {
+                    console.log(this.age);
+                }
+                alert(`my age is ${this.age}`)
+            }
+        }
+    })
+</script>
+
+</html>

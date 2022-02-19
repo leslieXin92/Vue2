@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1>hello {{name}}，{{age}}</h1>
+        <input type="text" @keyup="showVal1" placeholder="按下回车提示输入">
+        <input type="text" @keyup.enter="showVal2" placeholder="按下回车提示输入">
+        <input type="text" @keyup.13="showVal2" placeholder="按下回车提示输入">
+        <input type="text" @keyup.huiche="showVal2" placeholder="按下回车提示输入">
+        <input type="text" @keyup.ctrl.c="showVal2" placeholder="按下ctrl+c提示输入">
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 定义别名按键
+    Vue.config.keyCodes.huiche = 13
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        },
+        methods: {
+            showVal1(e) {
+                if (e.keyCode != 13) return
+                console.log(e.target.value)
+            },
+            showVal2(e) {
+                console.log(e.target.value)
+            }
+        }
+    })
+</script>
+
+</html>

@@ -492,4 +492,346 @@ Vue有两种数据绑定的方式。
    ​		为每一个添加到vm上的属性，都指定一个getter和setter；
 
    ​		在getter和setter的内部去操作（读 / 写）data中对应的属性。
-   
+
+------
+
+### 1.8 事件处理
+
+#### 1.8.1 事件的基本使用
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1>my name is {{name}}</h1>
+        <button v-on:click="showAge1">show my age</button>
+        <button @click="showAge2($event,24)">show my ChineseAge</button>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        },
+        methods: {
+            showAge1() {
+                alert(`my age is ${this.age}`) // this指当前实例对象
+            },
+            showAge2(event, ChineseAge) {
+                alert(`my ChineseAge is ${ChineseAge}`) // this指当前实例对象
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. 使用v-on:xxx或者@xxx绑定事件，xxx为事件名。
+2. 事件的回调需要配置在methods里，最终出现在vm上。
+3. methods中配置的函数，都是被Vue管理的函数，this指向vm或组件实例对象。
+4. methods中配置的函数，不要用箭头函数，否则this就会从vm变为window。
+5. @click="func" 和 @click="func ($event)" 效果一致，但后者可以传参。
+
+#### 1.8.2 事件修饰符
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 10px;
+        }
+
+        .box {
+            display: flex;
+            justify-content: space-around;
+            width: 400px;
+            height: auto;
+            background-color: paleturquoise;
+        }
+
+        .father {
+            margin: auto;
+            padding: 5px;
+            border: 2px solid red;
+            background-color: paleturquoise;
+        }
+
+        .son {
+            background-color: orangered;
+        }
+
+        ul {
+            list-style: none;
+            border: 2px solid red;
+            width: 250px;
+            height: 200px;
+            overflow: scroll;
+        }
+
+        li {
+            height: 100px;
+            background-color: orangered;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1>hello {{name}}</h1>
+        <!--? 阻止默认事件 -->
+        <div class="box">
+            <a href="http://www.baidu.com" @click="showAge1">阻止默认事件</a>
+            <a href="http://www.baidu.com" @click.prevent="showAge2">func.prevent</a>
+        </div>
+        <!--? 阻止事件冒泡 -->
+        <div class="box">
+            <div @click="showAge3">
+                <button @click="showAge3">阻止事件冒泡</button>
+            </div>
+            <div @click="showAge4">
+                <button @click.stop="showAge4">func.stop</button>
+                <a href="http://www.baidu.com" @click.prevent.stop="showAge4">可以叠加</a>
+            </div>
+        </div>
+        <!--? 事件只触发一次 -->
+        <div class="box">
+            <button @click="showAge5" class="Oncebtn">事件只触发一次</button>
+            <button @click.once="showAge6">func.once</button>
+        </div>
+        <!--? 捕获阶段出发回调 -->
+        <div class="box">
+            <div class="father captureBegin" @click="showAge7(0)">
+                father
+                <div class="son" @click="showAge7(1)">son</div>
+            </div>
+            <div class="father" @click.capture="showAge8(0)">
+                father
+                <div class="son" @click="showAge8(1)">son</div>
+            </div>
+        </div>
+        <!--? 只有event.target是当前操作的元素时才触发事件 -->
+        <div class="box">
+            <div @click.self="showAge9">
+                <button @click="showAge9">只有event.target是当前操作的元素时才触发事件</button>
+            </div>
+        </div>
+        <!--? 时间的默认行为会立即执行，无需等待事件回调执行完毕 -->
+        <div class="box">
+            <ul @wheel.passive="showAge10">
+                <li>html</li>
+                <li>css</li>
+                <li>javaScript</li>
+                <li>Vue</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        },
+        methods: {
+            // 阻止默认事件 
+            showAge1(e) {
+                e.preventDefault()
+                alert(`my age is ${this.age}`)
+            },
+            showAge2() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 阻止事件冒泡
+            showAge3(e) {
+                e.stopPropagation()
+                alert(`my age is ${this.age}`)
+            },
+            showAge4() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 事件只触发一次
+            // document.querySelector('.onceBtn').onclick = showAge5()
+            showAge5() {
+                alert(`my age is ${this.age}`)
+                // document.querySelector('.onceBtn').onclick = ''
+            },
+            showAge6() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 捕获阶段触发回调
+            // const captureBeginEl = document.querySelector('.captureBegin')
+            // captureBeginEl.addEventListener('click',showAge7,false)
+            showAge7(num) {
+                const msg = num === 0 ? 'my age is' : 'my ChineseAge is'
+                alert(`${msg} ${this.age+num}`)
+            },
+            showAge8(num) {
+                const msg = num === 0 ? 'my age is' : 'my ChineseAge is'
+                alert(`${msg} ${this.age+num}`)
+            },
+
+            // 只有event.target是当前操作的元素时才触发事件
+            showAge9() {
+                alert(`my age is ${this.age}`)
+            },
+
+            // 时间的默认行为会立即执行，无需等待事件回调执行完毕
+            // 默认顺序为：点击按钮 => 执行回调 => 执行默认事件
+            showAge10() {
+                for (let i = 0; i < 10000; i++) {
+                    console.log(this.age);
+                }
+                alert(`my age is ${this.age}`)
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+Vue中的事件修饰符：
+
+1. .prevent：阻止默认事件。
+2. .stop：阻止事件冒泡。
+3. .once：事件只触发一次。
+4. .capture：使用事件的捕获模式。
+5. .self：只有event.target为当前操作元素时才会触发事件。
+6. .passive：事件的默认行为会立即执行，无需等待事件回调执行完毕。
+
+#### 1.8.3 键盘事件
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1>hello {{name}}，{{age}}</h1>
+        <input type="text" @keyup="showVal1" placeholder="按下回车提示输入">
+        <input type="text" @keyup.enter="showVal2" placeholder="按下回车提示输入">
+        <input type="text" @keyup.13="showVal2" placeholder="按下回车提示输入">
+        <input type="text" @keyup.huiche="showVal2" placeholder="按下回车提示输入">
+        <input type="text" @keyup.ctrl.c="showVal2" placeholder="按下ctrl+c提示输入">
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 定义别名按键
+    Vue.config.keyCodes.huiche = 13
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        },
+        methods: {
+            showVal1(e) {
+                if (e.keyCode != 13) return
+                console.log(e.target.value)
+            },
+            showVal2(e) {
+                console.log(e.target.value)
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. Vue中常用的案件别名：
+
+   回车：enter
+
+   删除：delete（捕获 delete 和 backspace）
+
+   退出：esc
+
+   换行：tab（与@keydown使用）
+
+   上：up
+
+   下：down
+
+   左：left
+
+   右：right
+
+2. Vue未提供别名的按键，可以使用原始的key值（如CapsLock）去绑定，但注意要转换为kebab-case形式（如caps-lock）。
+
+3. 系统修饰键（用法特殊）：ctrl、alt、shift、meta
+
+   a. 配合keyup使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才会被触发。
+
+   b. 配合keydown使用：正常触发事件。
+
+4. 可以使用keyCode去指定具体的按键，但keyCode要被移除，故不推荐。
+
+5. Vue.config.keyCodes.自定义键名 = 键码，可以自定义按键别名。

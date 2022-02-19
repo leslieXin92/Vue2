@@ -14,8 +14,8 @@
     <!--! 容器 -->
     <div id="root">
         <h1>my name is {{name}}</h1>
-        <button v-on:click="showAge">show my age</button>
-        <button @click="showAge">show my age</button>
+        <button v-on:click="showAge1">show my age</button>
+        <button @click="showAge2($event,24)">show my ChineseAge</button>
     </div>
 </body>
 
@@ -31,8 +31,11 @@
             age: 23
         },
         methods: {
-            showAge() {
-                alert(this.age) // this指当前实例对象
+            showAge1() {
+                alert(`my age is ${this.age}`) // this指当前实例对象
+            },
+            showAge2(event, ChineseAge) {
+                alert(`my ChineseAge is ${ChineseAge}`) // this指当前实例对象
             }
         }
     })
