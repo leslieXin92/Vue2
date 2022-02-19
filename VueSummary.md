@@ -492,3 +492,4 @@ Vue有两种数据绑定的方式。
    ​		为每一个添加到vm上的属性，都指定一个getter和setter；
 
    ​		在getter和setter的内部去操作（读 / 写）data中对应的属性。
+   
