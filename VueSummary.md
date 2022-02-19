@@ -927,3 +927,91 @@ Vue中的事件修饰符：
    ​		a. 计算属性最终会出现在vm上，直接读取使用即可。
 
    ​		b. 如果计算属性要被修改，那必须写set函数去相应修改，且set中要引起计算时依赖的数据发生改变。
+
+------
+
+### 1.10 监听属性
+
+#### demo：
+
+```html
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!--! 引入vue -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <!--! 容器 -->
+        <div id="root">
+            <h1>今天天气很{{weather}}</h1>
+            <button @click="handleChangeWeather">切换天气</button>
+        </div>
+    </body>
+
+    <script>
+        // 以阻止 vue 在启动时生成生产提示。
+        Vue.config.productionTip = false
+
+        // 创建vue实例
+        const vm = new Vue({
+            el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+            data: { // data中用于存储数据，用于el指定的容器使用。
+                isHot: true
+            },
+            // computed 
+            computed: {
+                weather() {
+                    return this.isHot ? '炎热1' : '寒冷0'
+                }
+            },
+            // watch
+            watch: {
+                isHot: {
+                    immediate: true, // 初始化时立刻调用handler，默认为false
+                    handler(newVal, oldVal) { // 当isHot发生改变时，调用handler
+                        console.log('handler', newVal, oldVal);
+                    }
+                }
+            },
+            // methods
+            methods: {
+                handleChangeWeather() {
+                    this.isHot = !this.isHot
+                }
+            },
+        })
+
+        // 不在vm里写watch，可以在外边这么写
+        vm.$watch('isHot', {
+            immediate: true, // 初始化时立刻调用handler，默认为false
+            handler(newVal, oldVal) { // 当isHot发生改变时，调用handler
+                console.log('handler', newVal, oldVal);
+            }
+        })
+    </script>
+
+    </html>
+```
+
+
+
+#### summary：
+
+监听属性watch：
+
+1. 当被监听的属性发生变化时，回调函数handler自动被调用，进行相关操作。
+
+2. 监视的属性必须存在才能被监视，可以是data里的属性，也可以是computed里计算出来的属性。
+
+3. 监视的两种写法：
+
+   ​		a. new Vue时传入watch配置。
+
+   ​		b. 通过vm.$watch监视。
