@@ -10,11 +10,11 @@
 
 构建用户界面：在合适的时间，发起合适的请求，拿到合适的数据，显示在合适的位置。
 
-渐进式：自底向上逐层的应用。逐渐 + 递进
+渐进式：自底向上逐层的应用。逐渐 + 递进。
 
-​		      简单应用：只需要引入一个轻量小巧的核心库。
+​		简单应用：只需要引入一个轻量小巧的核心库。
 
-​			  复杂应用：可以引入各种Vue插件。
+​		复杂应用：可以引入各种Vue插件。
 
 #### 特点：
 
@@ -286,15 +286,15 @@ Vue有两种数据绑定的方式。
 
 1.  el有两种写法：
 
-   ​	（1）new Vue时配置el属性。
+   ​		（1）new Vue时配置el属性。
 
-   ​	（2）先创建Vue实例，再通过vm.$mount ( ' #root ' ) 指定el的值。 
+   ​		（2）先创建Vue实例，再通过vm.$mount ( ' #root ' ) 指定el的值。 
 
 2. data有两种写法：
 
-   ​	（1）对象式
+   ​		（1）对象式
 
-   ​	（2）函数式
+   ​		（2）函数式
 
 3. 重要原则：
 
@@ -348,9 +348,9 @@ Vue有两种数据绑定的方式。
 
 #### summary：
 
-1. M：模型 (model)  →  data里的数据。
-2. V：视图 (View)  →  模板代码。
-3. VM：视图模型 (ViewModel)  →  Vue实例。
+1. M：模型 ( model )	→	data里的数据。
+2. V：视图 ( View )	→	模板代码。
+3. VM：视图模型 ( ViewModel )	→	Vue实例。
 
 ------
 
@@ -808,30 +808,122 @@ Vue中的事件修饰符：
 
 1. Vue中常用的案件别名：
 
-   回车：enter
+   ​		回车：enter
 
-   删除：delete（捕获 delete 和 backspace）
+   ​		删除：delete（捕获 delete 和 backspace）
 
-   退出：esc
+   ​		退出：esc
 
-   换行：tab（与@keydown使用）
+   ​		换行：tab（与@keydown使用）
 
-   上：up
+   ​		上：up
 
-   下：down
+   ​		下：down
 
-   左：left
+   ​		左：left
 
-   右：right
+   ​		右：right
 
 2. Vue未提供别名的按键，可以使用原始的key值（如CapsLock）去绑定，但注意要转换为kebab-case形式（如caps-lock）。
 
 3. 系统修饰键（用法特殊）：ctrl、alt、shift、meta
 
-   a. 配合keyup使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才会被触发。
+   ​		a. 配合keyup使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才会被触发。
 
-   b. 配合keydown使用：正常触发事件。
+   ​		b. 配合keydown使用：正常触发事件。
 
 4. 可以使用keyCode去指定具体的按键，但keyCode要被移除，故不推荐。
 
 5. Vue.config.keyCodes.自定义键名 = 键码，可以自定义按键别名。
+
+------
+
+### 1.9 计算属性
+
+#### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <input type="text" v-model="name"><br />
+        <input type="text" v-model="age"><br />
+        <h1>{{helloWord}}</h1><br />
+        <h1>{{helloWord}}</h1><br />
+        <h1>{{helloWord}}</h1><br />
+        <h1>{{helloWord}}</h1><br />
+        <h1>{{helloWord}}</h1><br />
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    const vm = new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        },
+        computed: {
+            // 完整写法：
+            helloWord: {
+                // 当读取helloWord时 或 helloWord所依赖的数据发生改变时，set就会被调用，且返回值就会被作为helloWord的值。
+                get() {
+                    console.log('getter');
+                    return this.name + '，' + this.age
+                },
+                set(newVal) {
+                    console.log('setter');
+                    // console.log(this); // Vue改变了computed的this指向，此处的this指向vm
+                    this.name = newVal.split('，')[0]
+                    this.age = newVal.split('，')[1]
+                }
+            },
+            // 简写（只可读取不可修改）
+            helloWord() {
+                console.log('getter');
+                return this.name + '，' + this.age
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+
+
+#### summary：
+
+1. 定义：要用的属性不存在，要通过已有属性计算得来。
+
+2. 原理：底层借助了Object.defineProperty方法提供的getter和setter。
+
+3. get函数什么时候执行：
+
+   ​		a. 初次读取时会执行一次，有缓存。
+
+   ​		b. 当依赖的数据发生改变时会被再次调用。
+
+4. 优点：与methods相比，内部有缓存机制，可以被复用，效率更高，调试方便。
+
+5. tips：
+
+   ​		a. 计算属性最终会出现在vm上，直接读取使用即可。
+
+   ​		b. 如果计算属性要被修改，那必须写set函数去相应修改，且set中要引起计算时依赖的数据发生改变。
