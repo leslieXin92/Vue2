@@ -1449,3 +1449,276 @@ Vue中的事件修饰符：
    ​		特点：不展示的dom元素不会被移除，仅仅是样式被隐藏。
 
 3. tips：使用 v-if 时，dom可能无法被获取，但使用 v-show 一定可以获取到。
+
+------
+
+### 1.14 列表渲染
+
+#### 1.14.1 基本列表
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 20px;
+            width: 200px;
+            background-color: brown;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            height: 50px;
+            color: aqua;
+            background-color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <!--? 遍历数组 -->
+        <ul>
+            <li v-for="p in person" :key="p.id">
+                hello {{p.name}}，{{p.age}}
+            </li>
+        </ul>
+
+        <ul>
+            <li v-for="(p,index) in person" :key="index">
+                hello {{p.name}}，{{p.age}}
+            </li>
+        </ul>
+        <hr>
+
+        <!--? 遍历对象 -->
+        <ul>
+            <li v-for="(val,k) in yahoo" :key="k">
+                k：{{k}}<br />
+                val：{{val}}
+            </li>
+        </ul>
+        <hr>
+
+        <!--? 遍历字符串 -->
+        <ul>
+            <li v-for="(char,index) in yahoo.name" :key="index">
+                char：{{char}}<br />
+                index：{{index}}
+            </li>
+        </ul>
+        <hr>
+
+        <!--? 遍历指定次数 -->
+        <ul>
+            <li v-for="number,index of 5" :key="index">
+                number：{{number}}<br />
+                index：{{index}}
+            </li>
+        </ul>
+
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            person: [{
+                id: 001,
+                name: '张三',
+                age: 3,
+            }, {
+                id: 002,
+                name: '李四',
+                age: 4,
+            }, {
+                id: 003,
+                name: '王老五',
+                age: 5,
+            }],
+            yahoo: {
+                name: 'yahoo',
+                age: 23
+            },
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. v-for 用于展示列表数据。
+2. 语法：v-for = " ( item, index ) in xxx "  :key = " yyy "。
+3. 可以遍历数组、对象、字符串、指定次数。
+
+#### 1.14.2 key的作用及原理
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 20px;
+            width: 200px;
+            background-color: brown;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            height: 50px;
+            color: aqua;
+            background-color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <button @click.once="add">添加一个赵六</button>
+        <ul>
+            <li v-for="(p,index) in person" :key="index">
+                <p>hello {{p.name}}，{{p.age}}</p>
+                <input type="text">
+            </li>
+        </ul>
+        <ul>
+            <li v-for="(p,index) in person" :key="p.id">
+                <p>hello {{p.name}}，{{p.age}}</p>
+                <input type="text">
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            person: [{
+                id: 001,
+                name: '张三',
+                age: 3
+            }, {
+                id: 002,
+                name: '李四',
+                age: 4
+            }, {
+                id: 003,
+                name: '王老五',
+                age: 5
+            }]
+        },
+        methods: {
+            add() {
+                const newPerson = {
+                    id: 004,
+                    name: '赵六',
+                    age: 6
+                }
+                this.person.unshift(newPerson)
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+##### 当key为index时：
+
+tips：若不写key，Vue默认index为key。
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202202334112.png)
+
+##### 当key为id时：
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202202335791.png)
+
+##### summary：
+
+1. 虚拟dom中key的作用：
+
+   ​		key是虚拟dom对象的标识，当状态中的数据发生变化时，Vue会根据【新数据】去生成【新虚拟dom】，随后Vue进行【新虚拟dom】和【旧虚拟dom】的diff差异比较。
+
+2. 对比原则：
+
+   ​		(1). 旧虚拟dom中找到了与新虚拟dom相同的key：
+
+   ​				a. 若虚拟dom中内容没变，则直接使用之前的真实dom；
+
+   ​				b. 若虚拟dom中内容变了，则生成新的真实dom，随后替换掉页面中之前的真实dom。
+
+   ​		(2). 旧虚拟dom中未找到与新虚拟dom相同的key：
+
+   ​				创建新的真实dom，随后渲染到页面上。
+
+3. 用index作为key可能会引发的问题：
+
+   ​		a. 若对数据进行逆序添加、逆序删除等破坏顺序的操作，会产生没有必要的真实dom更新，虽界面效果没有问题，但效率低。
+
+   ​		b. 如果结构中还包含了输入类的dom，会产生错误dom更新，界面会出现问题。
+
+4. 开发中如何选择key：
+
+   ​		a. 最好使用每条数据的唯一标识作为key，比如id、手机号、身份证号、学号等唯一值。
+
+   ​		b. 如果不存在对数据的逆序添加、逆序删除等破坏顺序的操作，仅用于渲染列表和展示，可以使用index来作为key。

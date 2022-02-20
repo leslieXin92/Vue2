@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 20px;
+            width: 200px;
+            background-color: brown;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            height: 50px;
+            color: aqua;
+            background-color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <!--? 遍历数组 -->
+        <ul>
+            <li v-for="p in person" :key="p.id">
+                hello {{p.name}}，{{p.age}}
+            </li>
+        </ul>
+
+        <ul>
+            <li v-for="(p,index) in person" :key="index">
+                hello {{p.name}}，{{p.age}}
+            </li>
+        </ul>
+        <hr>
+
+        <!--? 遍历对象 -->
+        <ul>
+            <li v-for="(val,k) in yahoo" :key="k">
+                k：{{k}}<br />
+                val：{{val}}
+            </li>
+        </ul>
+        <hr>
+
+        <!--? 遍历字符串 -->
+        <ul>
+            <li v-for="(char,index) in yahoo.name" :key="index">
+                char：{{char}}<br />
+                index：{{index}}
+            </li>
+        </ul>
+        <hr>
+
+        <!--? 遍历指定次数 -->
+        <ul>
+            <li v-for="number,index of 5" :key="index">
+                number：{{number}}<br />
+                index：{{index}}
+            </li>
+        </ul>
+
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            person: [{
+                id: 001,
+                name: '张三',
+                age: 3,
+            }, {
+                id: 002,
+                name: '李四',
+                age: 4,
+            }, {
+                id: 003,
+                name: '王老五',
+                age: 5,
+            }],
+            yahoo: {
+                name: 'yahoo',
+                age: 23
+            },
+        }
+    })
+</script>
+
+</html>
