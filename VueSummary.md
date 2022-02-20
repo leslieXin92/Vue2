@@ -932,7 +932,9 @@ Vue中的事件修饰符：
 
 ### 1.10 监听属性
 
-#### demo：
+#### 1.10.1 监听属性
+
+##### demo：
 
 ```html
     <!DOCTYPE html>
@@ -973,11 +975,17 @@ Vue中的事件修饰符：
             },
             // watch
             watch: {
+                // 完整写法：
                 isHot: {
                     immediate: true, // 初始化时立刻调用handler，默认为false
+                    deep: true, // 深度监视，默认为false
                     handler(newVal, oldVal) { // 当isHot发生改变时，调用handler
-                        console.log('handler', newVal, oldVal);
+                        console.log('handler', newVal, oldVal)
                     }
+                },
+                // 简写：
+                isHot(newVal, oldVal) {
+                    console.log('handler', newVal, oldVal)
                 }
             },
             // methods
@@ -986,6 +994,133 @@ Vue中的事件修饰符：
                     this.isHot = !this.isHot
                 }
             },
+        })
+
+        // 不在vm里写watch，可以在外边这么写
+        // 完整写法：
+        vm.$watch('isHot', {
+            immediate: true, // 初始化时立刻调用handler，默认为false
+            deep: true, // 深度监视，默认时false
+            handler(newVal, oldVal) { // 当isHot发生改变时，调用handler
+                console.log('handler', newVal, oldVal)
+            }
+        })
+        // 简写：
+        vm.$watch('isHot', function (newVal, oldVal) {
+            console.log('handler', newVal, oldVal)
+        })
+    </script>
+
+    </html>
+```
+
+
+
+##### summary：
+
+监听属性watch：
+
+1. 当被监听的属性发生变化时，回调函数handler自动被调用，进行相关操作。
+
+2. 监视的属性必须存在才能被监视，可以是data里的属性，也可以是computed里计算出来的属性。
+
+3. 监视的两种写法：
+
+   ​		a. new Vue时传入watch配置。
+
+   ​		b. 通过vm.$watch监视。
+
+#### 1.10.2 深度监视
+
+##### demo:
+
+```html
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!--! 引入vue -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <!--! 容器 -->
+        <div id="root">
+            <h1>今天天气很{{weather}}</h1>
+            <button @click="handleChangeWeather">切换天气</button>
+            <h1>a的值为：{{numbers.a}}</h1>
+            <button @click="addA">点击a++</button>
+            <h1>b的值为：{{numbers.b}}</h1>
+            <button @click="addB">点击b++</button>
+            <h1>e的值为：{{numbers.c.d.e}}</h1>
+            <button @click="addE">点击e++</button>
+        </div>
+    </body>
+
+    <script>
+        // 以阻止 vue 在启动时生成生产提示。
+        Vue.config.productionTip = false
+
+        // 创建vue实例
+        const vm = new Vue({
+            el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+            data: { // data中用于存储数据，用于el指定的容器使用。
+                isHot: true,
+                numbers: {
+                    a: 0,
+                    b: 10,
+                    c: {
+                        d: {
+                            e: 100
+                        }
+                    }
+                }
+            },
+            // computed 
+            computed: {
+                weather() {
+                    return this.isHot ? '炎热1' : '寒冷0'
+                }
+            },
+            // watch
+            watch: {
+                isHot: {
+                    immediate: true, // 初始化时立刻调用handler，默认为false
+                    handler(newVal, oldVal) { // 当isHot发生改变时，调用handler
+                        console.log('handler', newVal, oldVal);
+                    }
+                },
+                'numbers.a': { // 监视多级结构中某个属性的变化
+                    handler() {
+                        console.log('a被改变了');
+                    }
+                },
+                numbers: { // 检测多级结构中所有属性的变化
+                    deep: true, // 深度监视，默认为false
+                    handler() {
+                        console.log('number被改变了');
+                    }
+                }
+            },
+            // methods
+            methods: {
+                handleChangeWeather() {
+                    this.isHot = !this.isHot
+                },
+                addA() {
+                    this.numbers.a++
+                },
+                addB() {
+                    this.numbers.b++
+                },
+                addE() {
+                    this.numbers.c.d.e++
+                }
+            }
         })
 
         // 不在vm里写watch，可以在外边这么写
@@ -1000,18 +1135,84 @@ Vue中的事件修饰符：
     </html>
 ```
 
+##### summary：
 
+1. 深度监视：
+
+   ​		a. Vue中的watch默认不监测对象内部值得改变，只监视一层。
+
+   ​		b. 配置deep：true可以监测对象内部值得改变，监视多层。
+
+2. tips：
+
+   ​		a. Vue自身可以监测对象内部值得改变，但Vue提供得watch默认不监测。
+
+   ​		b. 使用watch时根据具体的数据结构，决定是否采用深度监视。
+
+### 1.11 watch与computed
+
+#### watch实现computed的demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <input type="text" v-model="name"><br />
+        <input type="text" v-model="age"><br />
+        <h1>{{helloWord}}</h1>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    const vm = new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23,
+            helloWord: 'hello yahoo，23'
+        },
+        watch: {
+            name(newVal) {
+                this.helloWord = `hello ${newVal}，${this.age}`
+            },
+            age(newVal) {
+                setTimeout(() => {
+                    this.helloWord = `hello ${this.name}，${newVal}`
+                }, 1000)
+            }
+        }
+    })
+</script>
+
+</html>
+```
 
 #### summary：
 
-监听属性watch：
+1. watch与computed之间的区别：
 
-1. 当被监听的属性发生变化时，回调函数handler自动被调用，进行相关操作。
+   ​		a. computed能完成的功能，watch都能完成。
 
-2. 监视的属性必须存在才能被监视，可以是data里的属性，也可以是computed里计算出来的属性。
+   ​		b. watch能完成的功能，computed不一定能完成，比如watch可以进行异步操作。
 
-3. 监视的两种写法：
+2. tips：
 
-   ​		a. new Vue时传入watch配置。
+   ​		a. 所被Vue管理的函数，最好写成普通函数，这样this的指向才会是vm或组件实例对象。
 
-   ​		b. 通过vm.$watch监视。
+   ​		b. 所不被Vue管理的函数，如定时器的回调、ajax的回调、Promise的回调等等，最好写成箭头函数，这样的this指向才会是vm或组件实例对象。

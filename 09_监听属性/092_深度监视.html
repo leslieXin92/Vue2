@@ -15,6 +15,12 @@
         <div id="root">
             <h1>今天天气很{{weather}}</h1>
             <button @click="handleChangeWeather">切换天气</button>
+            <h1>a的值为：{{numbers.a}}</h1>
+            <button @click="addA">点击a++</button>
+            <h1>b的值为：{{numbers.b}}</h1>
+            <button @click="addB">点击b++</button>
+            <h1>e的值为：{{numbers.c.d.e}}</h1>
+            <button @click="addE">点击e++</button>
         </div>
     </body>
 
@@ -26,7 +32,16 @@
         const vm = new Vue({
             el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
             data: { // data中用于存储数据，用于el指定的容器使用。
-                isHot: true
+                isHot: true,
+                numbers: {
+                    a: 0,
+                    b: 10,
+                    c: {
+                        d: {
+                            e: 100
+                        }
+                    }
+                }
             },
             // computed 
             computed: {
@@ -41,14 +56,34 @@
                     handler(newVal, oldVal) { // 当isHot发生改变时，调用handler
                         console.log('handler', newVal, oldVal);
                     }
+                },
+                'numbers.a': { // 监视多级结构中某个属性的变化
+                    handler() {
+                        console.log('a被改变了');
+                    }
+                },
+                numbers: { // 检测多级结构中所有属性的变化
+                    deep: true, // 深度监视，默认为false
+                    handler() {
+                        console.log('number被改变了');
+                    }
                 }
             },
             // methods
             methods: {
                 handleChangeWeather() {
                     this.isHot = !this.isHot
+                },
+                addA() {
+                    this.numbers.a++
+                },
+                addB() {
+                    this.numbers.b++
+                },
+                addE() {
+                    this.numbers.c.d.e++
                 }
-            },
+            }
         })
 
         // 不在vm里写watch，可以在外边这么写
