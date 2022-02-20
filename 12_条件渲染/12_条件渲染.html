@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 20px;
+        }
+
+        .box {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <!--? 使用v-show做条件渲染 -->
+        <!-- dom节点一直存在，转换频率高使用v-show -->
+        <h1 v-show="true">hello {{name}},{{age+1}}</h1>
+        <!--? 使用v-if做条件渲染 -->
+        <!-- dom节点不存在，转换频率低使用v-if -->
+        <h1 v-if="true">hello {{name}},{{age+1}}</h1>
+
+        <div class="box">
+            <button @click="n++">点击n++，n={{n}}</button>
+            <div v-show="n===1">Angular</div>
+            <div v-show="n===2">React</div>
+            <div v-show="n===3">Vue</div>
+        </div>
+
+        <div class="box">
+            <button @click="m++">点击m++，m={{m}}</button>
+            <div v-if="m===1">Angular</div>
+            <div v-else-if="m===2">React</div>
+            <div v-else>Vue</div>
+        </div>
+
+        <!--? v-if与template的配合使用 -->
+        <template v-if="m===n">
+            <h2>hello {{name}}，{{age}}</h2>
+        </template>
+
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23,
+            n: 0,
+            m: 0
+        }
+    })
+</script>
+
+</html>

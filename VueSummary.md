@@ -1149,6 +1149,8 @@ Vue中的事件修饰符：
 
    ​		b. 使用watch时根据具体的数据结构，决定是否采用深度监视。
 
+------
+
 ### 1.11 watch与computed
 
 #### watch实现computed的demo：
@@ -1216,6 +1218,8 @@ Vue中的事件修饰符：
    ​		a. 所被Vue管理的函数，最好写成普通函数，这样this的指向才会是vm或组件实例对象。
 
    ​		b. 所不被Vue管理的函数，如定时器的回调、ajax的回调、Promise的回调等等，最好写成箭头函数，这样的this指向才会是vm或组件实例对象。
+
+------
 
 ### 1.12 绑定样式
 
@@ -1340,3 +1344,108 @@ Vue中的事件修饰符：
    ​		: style = " { fontSize : xxx } "，其中xxx为动态值。
 
    ​		: style = " [ a, b ] "，其中a、b为样式对象。
+
+------
+
+### 1.13 条件渲染
+
+#### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 20px;
+        }
+
+        .box {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <!--? 使用v-show做条件渲染 -->
+        <!-- dom节点一直存在，转换频率高使用v-show -->
+        <h1 v-show="true">hello {{name}},{{age+1}}</h1>
+        <!--? 使用v-if做条件渲染 -->
+        <!-- dom节点不存在，转换频率低使用v-if -->
+        <h1 v-if="true">hello {{name}},{{age+1}}</h1>
+
+        <div class="box">
+            <button @click="n++">点击n++，n={{n}}</button>
+            <div v-show="n===1">Angular</div>
+            <div v-show="n===2">React</div>
+            <div v-show="n===3">Vue</div>
+        </div>
+
+        <div class="box">
+            <button @click="m++">点击m++，m={{m}}</button>
+            <div v-if="m===1">Angular</div>
+            <div v-else-if="m===2">React</div>
+            <div v-else>Vue</div>
+        </div>
+
+        <!--? v-if与template的配合使用 -->
+        <template v-if="m===n">
+            <h2>hello {{name}}，{{age}}</h2>
+        </template>
+
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23,
+            n: 0,
+            m: 0
+        }
+    })
+</script>
+
+</html>
+```
+
+#### summary：
+
+1. v-if：
+
+   ​		写法：v-if = " 表达式 "
+
+   ​				  v-else-if = " 表达式 "
+
+   ​				  v-else
+
+   ​		适用于：切换频率较低的场景。
+
+   ​		特点：不展示的dom元素直接被移除。
+
+   ​		tips：v-if 可以和 v-else-if 、v-else 一起使用，但要求结构不能被“打断”。
+
+2. v-show：
+
+   ​		写法：v-show = " 表达式 "
+
+   ​		适用于：切换频率较高的场景。
+
+   ​		特点：不展示的dom元素不会被移除，仅仅是样式被隐藏。
+
+3. tips：使用 v-if 时，dom可能无法被获取，但使用 v-show 一定可以获取到。
