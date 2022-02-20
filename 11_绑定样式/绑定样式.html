@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0px 0px 20px black;
+            cursor: pointer;
+            background: s;
+        }
+
+        .background {
+            background-color: palegreen;
+        }
+
+        .fontSize {
+            font-size: 30px;
+        }
+
+        .color {
+            color: tomato;
+        }
+
+        .borderRadius {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <!--? 绑定class样式 -->
+        <!-- 字符串写法：适用于样式的类目不确定 -->
+        <div class="box" :class="oneClass" @click="handleChangeClass">{{name}}</div>
+        <!-- 数组写法：适用于样式的个数不确定，名字也不确定 -->
+        <div class="box" :class="classArr">{{name}}</div>
+        <!-- 对象写法：适用于要绑定的样式个数确定，名字也确定 -->
+        <div class="box" :class="classObj">{{name}}</div>
+        <!--? 绑定style样式 -->
+        <!-- 对象写法 -->
+        <div class="box" :style="styleObj">{{name}}</div>
+        <!-- 数组写法 -->
+        <div class="box" :style="styleArr">{{name}}</div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            oneClass: '',
+            classArr: ['background', 'fontSize', 'color', 'borderRadius'],
+            classObj: {
+                'background': true,
+                'fontSize': true,
+                'color': false,
+                'borderRadius': false
+            },
+            styleObj: {
+                fontSize: '50px',
+                color: 'navy'
+            },
+            styleArr: [{
+                fontSize: '50px',
+                color: 'navy'
+            }, {
+                backgroundColor: 'seagreen',
+                borderRadius: '30px'
+            }]
+        },
+        methods: {
+            handleChangeClass() {
+                const classList = ['background', 'fontSize', 'color', 'borderRadius']
+                const index = Math.floor(Math.random() * 3) + 1
+                this.oneClass = classList[index]
+            }
+        }
+    })
+</script>
+
+</html>

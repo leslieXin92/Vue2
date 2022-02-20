@@ -1216,3 +1216,127 @@ Vue中的事件修饰符：
    ​		a. 所被Vue管理的函数，最好写成普通函数，这样this的指向才会是vm或组件实例对象。
 
    ​		b. 所不被Vue管理的函数，如定时器的回调、ajax的回调、Promise的回调等等，最好写成箭头函数，这样的this指向才会是vm或组件实例对象。
+
+### 1.12 绑定样式
+
+#### demo:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0px 0px 20px black;
+            cursor: pointer;
+            background: s;
+        }
+
+        .background {
+            background-color: palegreen;
+        }
+
+        .fontSize {
+            font-size: 30px;
+        }
+
+        .color {
+            color: tomato;
+        }
+
+        .borderRadius {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <!--? 绑定class样式 -->
+        <!-- 字符串写法：适用于样式的类目不确定 -->
+        <div class="box" :class="oneClass" @click="handleChangeClass">{{name}}</div>
+        <!-- 数组写法：适用于样式的个数不确定，名字也不确定 -->
+        <div class="box" :class="classArr">{{name}}</div>
+        <!-- 对象写法：适用于要绑定的样式个数确定，名字也确定 -->
+        <div class="box" :class="classObj">{{name}}</div>
+        <!--? 绑定style样式 -->
+        <!-- 对象写法 -->
+        <div class="box" :style="styleObj">{{name}}</div>
+        <!-- 数组写法 -->
+        <div class="box" :style="styleArr">{{name}}</div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            oneClass: '',
+            classArr: ['background', 'fontSize', 'color', 'borderRadius'],
+            classObj: {
+                'background': true,
+                'fontSize': true,
+                'color': false,
+                'borderRadius': false
+            },
+            styleObj: {
+                fontSize: '50px',
+                color: 'navy'
+            },
+            styleArr: [{
+                fontSize: '50px',
+                color: 'navy'
+            }, {
+                backgroundColor: 'seagreen',
+                borderRadius: '30px'
+            }]
+        },
+        methods: {
+            handleChangeClass() {
+                const classList = ['background', 'fontSize', 'color', 'borderRadius']
+                const index = Math.floor(Math.random() * 3) + 1
+                this.oneClass = classList[index]
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+#### summary：
+
+1. class样式
+
+   ​		写法 ：: class = " xxx "，xxx可以为字符串、对象、数组。
+
+   ​				字符串写法适用于：类名不确定，需动态获取。
+
+   ​				对象写法适用于：要绑定多个样式，个数不确定，名字也不确定。
+
+   ​				数组写法适用于：要绑定多个样式，个数确定，但不确定用不用。
+
+2. style样式
+
+   ​		: style = " { fontSize : xxx } "，其中xxx为动态值。
+
+   ​		: style = " [ a, b ] "，其中a、b为样式对象。
