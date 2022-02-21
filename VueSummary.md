@@ -2331,3 +2331,100 @@ shortcoming：只能监视一层，无法监视多级结构。
    ​		(2).number：输入字符串转换为数字。
 
    ​		(3). trim：删除首位空格。
+
+### 1.16 过滤器
+
+#### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!--! 引入day.js -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h2>{{time}}</h2>
+
+        <!--? computed实现 -->
+        <h2>{{formatTime}}</h2>
+
+        <!--? methods实现 -->
+        <h2>{{getFormatTime()}}</h2>
+
+        <!--? 过滤器实现 -->
+        <h2>{{time | timeFilter}}</h2>
+        <!-- 过滤器传参 -->
+        <h2>{{time | timeFilter('YYYY年MM月DD日')}}</h2>
+        <!-- 过滤器串联 -->
+        <h2>{{time | timeFilter('YYYY年MM月DD日') | timeFormat}}</h2>
+        <!-- 配合v-bind -->
+        <input type="text" :xxx="name | timeFormat">
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 注册全局过滤器，必须在new Vue实例之前注册！！！
+    Vue.filter('timeFormat', function (val) {
+        return val.slice(0, 4)
+    })
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        data: {
+            name: 'yahoo',
+            time: new Date()
+        },
+        computed: {
+            formatTime() {
+                return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+            }
+        },
+        methods: {
+            getFormatTime() {
+                return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+            }
+        },
+        // 局部过滤器
+        filters: {
+            timeFilter(val, format = 'YYYY-MM-DD HH:mm:ss') {
+                return dayjs(val).format(format)
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+#### summary：
+
+1. 定义：
+
+   ​		对要显示的数据进行特定的格式转换后再显示，适用于一些简单逻辑的处理。
+
+2. 语法：
+
+   ​		(1). 注册过滤器：Vue.filter( name, callback ) 或 new Vue( filters: { } )。
+
+   ​		(2). 使用过滤器：{{ xxx | filterName }} 或 v-bind:attribute = ' xxx | filterName '
+
+3. tips：
+
+   ​		(1). 过滤器也可以接受额外参数，多个过滤器可以串联。
+
+   ​		(2). 并没有改变原本的数据，是产生新的对应的数据。
