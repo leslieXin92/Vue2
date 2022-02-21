@@ -2203,3 +2203,131 @@ shortcoming：只能监视一层，无法监视多级结构。
    ​		b. 使用Vue.set( ) 或 vm.$set( )。
 
 5. tips：Vue.set( ) 和 vm.$set( ) 不能给vm或vm的根数据对象添加属性！！！
+
+### 1.15 收集表单数据
+
+#### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <form @submit.prevent="submit">
+            <label for="user"> username： </label>
+            <input type="text" id="user" v-model.lazy="info.username">
+            <br /><br />
+
+            <label for="psw"> password： </label>
+            <input type="password" id="psw" v-model="info.psw">
+            <br /><br />
+
+            <label for="age"> age： </label>
+            <input type="number" name="age" id="age" v-model.number="info.age">
+            <br /><br />
+
+            <label> sex： </label>
+            boy <input type="radio" name="sex" v-model="info.sex" value="1">
+            girl <input type="radio" name="sex" v-model="info.sex" value="0">
+            <br /><br />
+
+            <label> hobbies： </label>
+            抽烟 <input type="checkbox" name="hobbies" v-model="info.hobbies" value="0">
+            喝酒 <input type="checkbox" name="hobbies" v-model="info.hobbies" value="1">
+            烫头 <input type="checkbox" name="hobbies" v-model="info.hobbies" value="2">
+            <br /><br />
+
+            <label> select what u learn： </label>
+            <select v-model="info.learnSubject">
+                <option value=""> select u subject </option>
+                <option value="0"> JavaScript </option>
+                <option value="1"> TypeScript </option>
+                <option value="2"> Vue </option>
+                <option value="3"> React </option>
+                <option value="4"> node </option>
+            </select>
+            <br /><br />
+
+            <label> remark： </label>
+            <textarea v-model.trim="info.remark"></textarea>
+            <br /><br />
+
+            <input type="checkbox" v-model="info.will">
+            <label>
+                will u
+                <a href="https://www.darryring.com/">
+                    marry
+                </a>
+                him？
+            </label>
+            <br /><br />
+
+            <button> submit </button>
+        </form>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            info: {
+                username: '',
+                psw: '',
+                age: null,
+                sex: null,
+                hobbies: [],
+                learnSubject: '',
+                remark: '',
+                will: null
+            }
+        },
+        methods: {
+            submit() {
+                alert(JSON.stringify(this.info));
+            }
+        },
+    })
+</script>
+
+</html>
+```
+
+#### summary：
+
+1. 若 <input type='text'>，则 v-model 收集的是 value 值，用户输入的就是 value 值。
+
+2. 若<input type='radio'>，则 v-model 收集的是 value 值，且要给标签配置 value 值。
+
+3. 若<input type='chaeckbox'>：
+
+   ​		(1). 没有配置 input 的 value 值，那么收集的就是 checked 状态。
+
+   ​		(2). 配置了 input 的 value 值：
+
+   ​				a. v-model 的初始值是数组，那么收集的就是 value 组成的数组。
+
+   ​				b. v-model 的初始值是非数组，那么收集的就是 checked 状态。
+
+4. v-model 三个修饰符：
+
+   ​		(1). lazy：失去焦点再收集数据。
+
+   ​		(2).number：输入字符串转换为数字。
+
+   ​		(3). trim：删除首位空格。
