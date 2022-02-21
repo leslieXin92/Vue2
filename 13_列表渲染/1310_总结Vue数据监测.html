@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .box {
+            width: 300px;
+            height: auto;
+            margin: 20px;
+            background-color: aquamarine;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin: 10px 0;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: tomato;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h2>name：{{people.name}}</h2>
+        <!--? age -->
+        <div class="box">
+            <button @click="addAge">addAge</button>
+            <h2>age：{{people.age}}</h2>
+        </div>
+        <!--? sex -->
+        <div class="box">
+            <button @click="addSex">addSex</button>
+            <h2 v-if="people.sex">sex：{{people.sex}}</h2>
+        </div>
+        <!--? hobbies -->
+        <div class="box">
+            <button @click="addHobby">addHobby</button>
+            <button @click="editFirstHobby">editFirstHobby</button>
+            <h2>hobbies：</h2>
+            <ul>
+                <li v-for="(hobby,index) in people.hobbies" :key="index">
+                    hobby{{index+1}}：{{hobby}}
+                </li>
+            </ul>
+        </div>
+        <!--? friends -->
+        <div class="box">
+            <button @click="addFriendInFront">addFriendInFront</button>
+            <button @click="editFirstFriend">editFirstFriend</button>
+            <h2>friends</h2>
+            <ul>
+                <li v-for="(friend,index) in people.friends" :key="index">
+                    friend{{index+1}}：{{friend.name}} -- {{friend.age}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            people: {
+                name: 'yahoo',
+                age: 23,
+                hobbies: ['抽烟', '喝酒', '烫头'],
+                friends: [{
+                    name: 'BonZi',
+                    age: 23
+                }, {
+                    name: 'Rose',
+                    age: 24
+                }]
+            }
+        },
+        methods: {
+            addAge() {
+                this.people.age++
+            },
+            addSex() {
+                // 方法一：
+                this.$set(this.people, 'sex', 'boy')
+                // 方法二：
+                Vue.set(this.people, 'sex', 'boy')
+            },
+            addHobby() {
+                this.people.hobbies.push('skate')
+            },
+            editFirstHobby() {
+                // 方法一：
+                this.people.hobbies.splice(0, 1, '滑板')
+                // 方法二：
+                this.$set(this.people.hobbies, 0, '滑板')
+                // 方法三：
+                Vue.set(this.people.hobbies, 0, '滑板')
+            },
+            addFriendInFront() {
+                const cabbage = {
+                    name: 'cabbage',
+                    age: 22
+                }
+                this.people.friends.unshift(cabbage)
+            },
+            editFirstFriend() {
+                this.people.friends[0].name = 'lover'
+            }
+        },
+    })
+</script>
+
+</html>

@@ -14,9 +14,13 @@
     <!--! 容器 -->
     <div id="root">
         <h2>name：{{name}}</h2>
-        <h2>age：{{age.age}}</h2>
-        <button @click="addChineseAge">添加虚岁</button>
-        <h2>ChineseAge：{{age.ChineseAge}}</h2>
+        <button @click="addHobby">点击添加</button>
+        <button @click="changeHobby">点击更换</button>
+        <ul>
+            <li v-for="(hobby,index) in hobbies" :key="index">
+                hobby{{index}}：{{hobby}}
+            </li>
+        </ul>
     </div>
 </body>
 
@@ -29,16 +33,17 @@
         el: '#root',
         data: {
             name: 'yahoo',
-            age: {
-                age: 23
-            }
+            hobbies: ['skate', 'badminton', 'front end']
         },
         methods: {
-            addChineseAge() {
+            addHobby() {
+                this.hobbies.unshift('smoke')
+            },
+            changeHobby() {
                 // 写法一：
-                Vue.set(this.age, 'ChineseAge', 24)
+                Vue.set(this.hobbies, 0, 'plmm')
                 // 写法二：
-                vm.$set(this.age, 'ChineseAge', 24)
+                // vm.$set(this.hobbies, 0, 'plmm')
             }
         },
     })

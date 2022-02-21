@@ -1722,3 +1722,484 @@ tips：若不写key，Vue默认index为key。
    ​		a. 最好使用每条数据的唯一标识作为key，比如id、手机号、身份证号、学号等唯一值。
 
    ​		b. 如果不存在对数据的逆序添加、逆序删除等破坏顺序的操作，仅用于渲染列表和展示，可以使用index来作为key。
+
+#### 1.14.3 列表过滤
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        input {
+            margin: 20px;
+            margin-bottom: 0;
+            outline: 2px solid brown;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 20px;
+            width: 200px;
+            background-color: brown;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            height: 50px;
+            color: aqua;
+            background-color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器1 -->
+    <div id="root1">
+        <input type="text" v-model="keyWord" placeholder="输入人名开始搜索">
+        <ul>
+            <li v-for="(p,index) in filterPerson" :key="p.id">
+                {{p.name}}-{{p.age}}-{{p.sex}}
+            </li>
+        </ul>
+    </div>
+    <!--! 容器2 -->
+    <div id="root2">
+        <input type="text" v-model="keyWord" placeholder="输入人名开始搜索">
+        <ul>
+            <li v-for="(p,index) in filterPerson" :key="p.id">
+                {{p.name}}-{{p.age}}-{{p.sex}}
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // watch实现模糊搜索
+    new Vue({
+        el: '#root1', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            keyWord: '',
+            person: [{
+                id: 001,
+                name: '马冬梅',
+                age: 40,
+                sex: '女'
+            }, {
+                id: 002,
+                name: '周冬雨',
+                age: 30,
+                sex: '女'
+            }, {
+                id: 003,
+                name: '周杰伦',
+                age: 43,
+                sex: '男'
+            }, {
+                id: 004,
+                name: '温兆伦',
+                age: 58,
+                sex: '男'
+            }],
+            filterPerson: []
+        },
+        watch: {
+            keyWord: {
+                immediate: true,
+                handler(newVal) {
+                    this.filterPerson = this.person.filter(p => p.name.indexOf(newVal) != -1)
+                }
+            }
+        }
+    })
+
+    // computed实现模糊搜索
+    new Vue({
+        el: '#root2', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            keyWord: '',
+            person: [{
+                id: 001,
+                name: '马冬梅',
+                age: 40,
+                sex: '女'
+            }, {
+                id: 002,
+                name: '周冬雨',
+                age: 30,
+                sex: '女'
+            }, {
+                id: 003,
+                name: '周杰伦',
+                age: 43,
+                sex: '男'
+            }, {
+                id: 004,
+                name: '温兆伦',
+                age: 58,
+                sex: '男'
+            }],
+        },
+        computed: {
+            filterPerson() {
+                return this.person.filter(p => p.name.indexOf(this.keyWord) != -1)
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+#### 1.14.4 列表排序
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        input {
+            margin: 20px;
+            margin-bottom: 0;
+            outline: 2px solid brown;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 20px;
+            width: 200px;
+            background-color: brown;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            height: 50px;
+            color: aqua;
+            background-color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <input type="text" v-model="keyWord" placeholder="输入人名开始搜索">
+        <button @click="sortType=0">原顺序</button>
+        <button @click="sortType=1">年龄降序</button>
+        <button @click="sortType=2">年龄升序</button>
+        <ul>
+            <li v-for="(p,index) in filterPerson" :key="p.id">
+                {{p.name}}-{{p.age}}-{{p.sex}}
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            keyWord: '',
+            sortType: 0, // 0原顺序，1降序，2升序
+            person: [{
+                id: 001,
+                name: '马冬梅',
+                age: 40,
+                sex: '女'
+            }, {
+                id: 002,
+                name: '周冬雨',
+                age: 30,
+                sex: '女'
+            }, {
+                id: 003,
+                name: '周杰伦',
+                age: 43,
+                sex: '男'
+            }, {
+                id: 004,
+                name: '温兆伦',
+                age: 58,
+                sex: '男'
+            }],
+        },
+        computed: {
+            filterPerson() {
+                const temp = this.person.filter(p => p.name.indexOf(this.keyWord) != -1)
+                if (this.sortType != 0) {
+                    temp.sort((a, b) => {
+                        return this.sortType === 1 ? b.age - a.age : a.age - b.age
+                    })
+                }
+                return temp
+            }
+        }
+    })
+</script>
+
+</html>
+```
+
+#### 1.14.5 Vue的数据监测
+
+##### 模拟Vue数据监视：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let data = {
+            name: 'yahoo',
+            age: 23
+        }
+
+        // 创建一个监视的实例对象，用于监视data中属性的变化
+        const dataObs = new Observer(data)
+
+        // 准备一个实例对象
+        let vm = {}
+        vm._data = data = dataObs
+
+        function Observer(obj) {
+            // 汇总对象中所有属性的key，形成一个数组
+            const keys = Object.keys(obj)
+            // 遍历
+            keys.forEach(k => {
+                Object.defineProperty(this, k, {
+                    get() {
+                        console.log(`${k}被读取了`);
+                        return obj[k]
+                    },
+                    set(newVal) {
+                        console.log(`${k}被修改成了${newVal}`);
+                        obj[k] = newVal
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+
+</html>
+```
+
+shortcoming：只能监视一层，无法监视多级结构。
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .box {
+            width: 300px;
+            height: auto;
+            margin: 20px;
+            background-color: aquamarine;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin: 10px 0;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: tomato;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h2>name：{{people.name}}</h2>
+        <!--? age -->
+        <div class="box">
+            <button @click="addAge">addAge</button>
+            <h2>age：{{people.age}}</h2>
+        </div>
+        <!--? sex -->
+        <div class="box">
+            <button @click="addSex">addSex</button>
+            <h2 v-if="people.sex">sex：{{people.sex}}</h2>
+        </div>
+        <!--? hobbies -->
+        <div class="box">
+            <button @click="addHobby">addHobby</button>
+            <button @click="editFirstHobby">editFirstHobby</button>
+            <h2>hobbies：</h2>
+            <ul>
+                <li v-for="(hobby,index) in people.hobbies" :key="index">
+                    hobby{{index+1}}：{{hobby}}
+                </li>
+            </ul>
+        </div>
+        <!--? friends -->
+        <div class="box">
+            <button @click="addFriendInFront">addFriendInFront</button>
+            <button @click="editFirstFriend">editFirstFriend</button>
+            <h2>friends</h2>
+            <ul>
+                <li v-for="(friend,index) in people.friends" :key="index">
+                    friend{{index+1}}：{{friend.name}} -- {{friend.age}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            people: {
+                name: 'yahoo',
+                age: 23,
+                hobbies: ['抽烟', '喝酒', '烫头'],
+                friends: [{
+                    name: 'BonZi',
+                    age: 23
+                }, {
+                    name: 'Rose',
+                    age: 24
+                }]
+            }
+        },
+        methods: {
+            addAge() {
+                this.people.age++
+            },
+            addSex() {
+                // 方法一：
+                this.$set(this.people, 'sex', 'boy')
+                // 方法二：
+                Vue.set(this.people, 'sex', 'boy')
+            },
+            addHobby() {
+                this.people.hobbies.push('skate')
+            },
+            editFirstHobby() {
+                // 方法一：
+                this.people.hobbies.splice(0, 1, '滑板')
+                // 方法二：
+                this.$set(this.people.hobbies, 0, '滑板')
+                // 方法三：
+                Vue.set(this.people.hobbies, 0, '滑板')
+            },
+            addFriendInFront() {
+                const cabbage = {
+                    name: 'cabbage',
+                    age: 22
+                }
+                this.people.friends.unshift(cabbage)
+            },
+            editFirstFriend() {
+                this.people.friends[0].name = 'lover'
+            }
+        },
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. Vue会监视data中所有层次的数据。
+
+2. 如何监测对象中的数据：通过setter实现监视，且要在new Vue时就传入要监测的数据。
+
+   ​		a. 对象中后追加的属性，Vue默认不做响应式处理。
+
+   ​		b. 如需给后添加的属性做响应式，则使用：
+
+   ​				Vue.set ( target , propertyName / index , value ) 或
+
+   ​				vm.$set ( target , propertyName / index , value ) 
+
+3. 如何监测数组中的数据：通过包裹数组更新元素的方法实现，本质做了两件事情：
+
+   ​		a. 调用原生对应的方法对数组进行更新。
+
+   ​		b. 重新解析模板，更新页面。
+
+4. 在Vue修改数组中的某个元素一定要用如下方法：
+
+   ​		a. 使用这些Api：push( )、pop( )、shift( )、unshift( )、splice( )、sort( )、reverse( )。
+
+   ​		b. 使用Vue.set( ) 或 vm.$set( )。
+
+5. tips：Vue.set( ) 和 vm.$set( ) 不能给vm或vm的根数据对象添加属性！！！
