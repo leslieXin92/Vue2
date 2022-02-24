@@ -2428,3 +2428,264 @@ shortcoming：只能监视一层，无法监视多级结构。
    ​		(1). 过滤器也可以接受额外参数，多个过滤器可以串联。
 
    ​		(2). 并没有改变原本的数据，是产生新的对应的数据。
+
+------
+
+### 1.17 内部指令
+
+#### 1.17.1 v-text指令
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h2>{{name}}</h2>
+        <div v-text="age"></div>
+        <h2>{{msg}}</h2>
+        <div v-text="msg">massage</div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        data: {
+            name: 'yahoo',
+            age: 23,
+            msg: '<a> hello </a>'
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. 作用：向其所在的节点中渲染文本内容。
+2. 与插值语法的区别：v-text 会替换掉节点的内容，插值语法不会。
+
+#### 1.17.2 v-html指令
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <div v-text="msg"></div>
+        <h2>{{msg}}</h2>
+        <div v-html="msg">massage</div>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        data: {
+            name: 'yahoo',
+            age: 23,
+            msg: '<a href="http://www.baidu.com"> hello </a>'
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. 作用：向指定节点中渲染包含 html 结构的内容。
+
+2. 与插值语法区别：
+
+   ​		(1) v-html 会替换掉节点中所有的内容，插值语法不会。
+
+   ​		(2) v-html 可以识别 html 结构。
+
+3. 严重注意：v-html有安全性问题！！！
+
+   ​		(1) 在网站上动态渲染任意 html 是非常危险的，容易导致XSS攻击。
+
+   ​		(2) 一定要在可信的内容上使用 v-html，永远不要用在用户提交的内容上。
+
+#### 1.17.3 v-clock指令
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        [v-clock] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1 v-clock>hello {{name}},{{age+1}}</h1>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. 本质是一个特殊属性，没有值，Vue实例创建完毕并接管容器后，会删掉v-clock属性。
+2. 使用css配合v-clock可以解决网速慢时页面展示出" {{name}} "的问题。
+
+#### 1.17.4 v-once指令
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1 v-once>init：{{age}}</h1>
+        <h1>current：{{age}}</h1>
+        <button @click="age++">age++</button>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. v-once所在节点在初次动态渲染后，就被视为静态内容了。
+2. 以后数据的改变不会引起v-once所在结构的更新，可以用于优化性能。
+
+#### 1.17.5 v-pre指令
+
+##### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1 v-pre>yahoo</h1>
+        <h1 v-pre>current：{{age}}</h1>
+        <button v-pre @click="age++">age++</button>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root', // el用于指定当前vue实例为哪个容器服务，值通常为css选择器字符串。
+        data: { // data中用于存储数据，用于el指定的容器使用。
+            name: 'yahoo',
+            age: 23
+        }
+    })
+</script>
+
+</html>
+```
+
+##### summary：
+
+1. 跳过其所在的节点的编译过程。
+2. 可利用他跳过没有使用指令语法、没有使用插值语法的节点，加快编译速度。
