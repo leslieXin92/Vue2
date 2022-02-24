@@ -2689,3 +2689,115 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 1. 跳过其所在的节点的编译过程。
 2. 可利用他跳过没有使用指令语法、没有使用插值语法的节点，加快编译速度。
+
+------
+
+### 1.18 自定义指令
+
+#### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器1 -->
+    <div id="root1">
+        <h1>hello {{name}}</h1>
+        <div>
+            <h1>age：{{age}}</h1>
+            <h1 v-big="age">age*10：</h1>
+        </div>
+        <div>
+            <button @click="age++">age++</button>
+            <input type="text" v-focus-bind:value="age">
+        </div>
+    </div>
+    <!--! 容器2 -->
+    <div id="root2">
+        <button @click="ChineseAge++">ChineseAge++</button>
+        <input type="text" v-focus-bind:value="ChineseAge">
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 注册全局自定义指令
+    Vue.directive('focus-bind', {
+        // 指令与元素成功绑定时
+        bind(element, binding) {
+            // console.log('bind', element, binding)
+            element.value = binding.value * 10
+        },
+        // 指令所在元素被插入页面时
+        inserted(element, binding) {
+            console.log('inserted')
+            element.focus()
+        },
+        // 指令所在的模板被重新解析时
+        update(element, binding) {
+            console.log('update')
+            element.value = binding.value * 10
+        }
+    })
+
+    // 实例一
+    new Vue({
+        el: '#root1',
+        data: {
+            name: 'yahoo',
+            age: 23
+        },
+        directives: {
+            // 1.指令与元素成功绑定时调用big函数   
+            // 2.指令所在的模板被重新解析时调用big函数
+            big(element, binding) {
+                element.innerText = binding.value * 10
+            },
+        }
+    })
+
+    // 实例二
+    new Vue({
+        el: '#root2',
+        data: {
+            ChineseAge: 24
+        },
+    })
+</script>
+
+</html>
+```
+
+#### summary：
+
+1. 定义语法：
+
+   ​		(1) 局部指令：directives: { name: obj } 或 directives( ){ }。
+
+   ​		(2) 全局指令：Vue.directive( name, obj / function )。
+
+2. 配置对象中常用的三个回调：
+
+   ​		(1) bind：指令与元素成功绑定时调用。
+
+   ​		(2) inserted：指令所在元素被插入页面时调用。
+
+   ​		(3) update：指令所在模板结构被重新解析时调用。
+
+3. tips：
+
+   ​		(1) 指令定义时不加 " v- "，但使用时要加。
+
+   ​		(2) 指令名如果是多个单词，要使用kakab-case方式，不要用camelCase命名。
