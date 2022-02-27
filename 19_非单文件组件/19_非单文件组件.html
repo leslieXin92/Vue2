@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器1 -->
+    <div id="root1">
+        <hellooo></hellooo>
+        <hr>
+        <school></school>
+        <hr>
+        <student></student>
+    </div>
+    <!--! 容器2 -->
+    <div id="root2">
+        <hellooo></hellooo>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 第一步：创建school组件
+    const school = Vue.extend({
+        template: ` 
+            <div>
+                <h2>shoolName：{{schoolName}}</h2>
+                <h2>address：{{schoolAddress}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                schoolName: 'SUSE',
+                schoolAddress: 'Yibin'
+            }
+        }
+    })
+
+    // 第一步：创建student组件
+    const student = Vue.extend({
+        template: `
+            <div>
+                <h2>studentName：{{studentName}}</h2>
+                <h2>age：{{studentAge}}</h2>
+                <button @click="add">Age++</button>
+            </div>
+        `,
+        data() {
+            return {
+                studentName: 'yahoo',
+                studentAge: 23
+            }
+        },
+        methods: {
+            add() {
+                this.studentAge++
+            }
+        },
+    })
+
+    // 第一步：创建hello组件
+    const hello = Vue.extend({
+        template: `
+            <h1>{{msg}}</h1>
+        `,
+        data() {
+            return {
+                msg: 'hello'
+            }
+        }
+    })
+
+    // 第二步：注册hello组件（全局注册）
+    Vue.component('hellooo', hello)
+
+    // 创建vm实例
+    new Vue({
+        el: '#root1',
+        components: { // 第二步：注册组件（局部注册）
+            school,
+            student
+        },
+        data: {},
+    })
+
+    new Vue({
+        el: '#root2',
+        data: {},
+    })
+</script>
+
+</html>

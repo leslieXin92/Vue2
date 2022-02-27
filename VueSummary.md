@@ -1,12 +1,8 @@
-# VueSummary
+# 一、Vue核心
 
-## 一、Vue核心
+## 1.1 Vue简介
 
-------
-
-### 1.1 Vue简介
-
-#### 一套用于 <u>构建用户界面</u> 的 <u>渐进式</u> JS框架。
+### 一套用于 <u>构建用户界面</u> 的 <u>渐进式</u> JS框架。
 
 构建用户界面：在合适的时间，发起合适的请求，拿到合适的数据，显示在合适的位置。
 
@@ -16,7 +12,7 @@
 
 ​		复杂应用：可以引入各种Vue插件。
 
-#### 特点：
+### 特点：
 
 1. 采用组件化模式，提高代码复用率以及可维护性。
 2. 声明式编码，无需直接操控dom，提高开发效率。
@@ -24,9 +20,9 @@
 
 ------
 
-### 1.2 初识Vue
+## 1.2 初识Vue
 
-#### Hello World：
+### Hello World：
 
 ```html
 <!DOCTYPE html>
@@ -65,7 +61,7 @@
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. 想让Vue工作，就必须创建一个Vue实例，且要传入一个配置对象。
 
@@ -87,9 +83,9 @@
 
 ------
 
-### 1.3 模板语法
+## 1.3 模板语法
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -136,7 +132,7 @@
 </html>
 ```
 
-#### summary：
+### summary：
 
 Vue模板语法分为两大类。
 
@@ -154,9 +150,9 @@ Vue模板语法分为两大类。
 
 ------
 
-### 1.4 数据绑定
+## 1.4 数据绑定
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -203,7 +199,7 @@ Vue模板语法分为两大类。
 </html>
 ```
 
-#### summary：
+### summary：
 
 Vue有两种数据绑定的方式。
 
@@ -212,9 +208,9 @@ Vue有两种数据绑定的方式。
 
 ------
 
-### 1.5 el和data的两种写法
+## 1.5 el和data的两种写法
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -282,7 +278,7 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-#### summary：
+### summary：
 
 1.  el有两种写法：
 
@@ -302,9 +298,9 @@ Vue有两种数据绑定的方式。
 
 ------
 
-### 1.6 MVVM模型
+## 1.6 MVVM模型
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -346,7 +342,7 @@ Vue有两种数据绑定的方式。
 
 ------
 
-#### summary：
+### summary：
 
 1. M：模型 ( model )	→	data里的数据。
 2. V：视图 ( View )	→	模板代码。
@@ -354,9 +350,9 @@ Vue有两种数据绑定的方式。
 
 ------
 
-### 1.7 Vue数据代理
+## 1.7 Vue数据代理
 
-#### 1.7.1 Object.defineProperty( )
+### 1.7.1 Object.defineProperty( )
 
 ```html
 <!DOCTYPE html>
@@ -399,7 +395,7 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-#### 1.7.2 什么是数据代理
+### 1.7.2 什么是数据代理
 
 ```html
 <!DOCTYPE html>
@@ -435,7 +431,7 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-#### 1.7.3 Vue的数据代理
+### 1.7.3 Vue的数据代理
 
 ```html
 <!DOCTYPE html>
@@ -479,7 +475,7 @@ Vue有两种数据绑定的方式。
 
 ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202180155379.png)
 
-#### summary：
+### summary：
 
 1. Vue中的数据代理：通过vm对象来代理data对象中属性的操作（读 / 写）。
 
@@ -495,11 +491,11 @@ Vue有两种数据绑定的方式。
 
 ------
 
-### 1.8 事件处理
+## 1.8 事件处理
 
-#### 1.8.1 事件的基本使用
+### 1.8.1 事件的基本使用
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -548,7 +544,7 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. 使用v-on:xxx或者@xxx绑定事件，xxx为事件名。
 2. 事件的回调需要配置在methods里，最终出现在vm上。
@@ -556,9 +552,9 @@ Vue有两种数据绑定的方式。
 4. methods中配置的函数，不要用箭头函数，否则this就会从vm变为window。
 5. @click="func" 和 @click="func ($event)" 效果一致，但后者可以传参。
 
-#### 1.8.2 事件修饰符
+### 1.8.2 事件修饰符
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -735,7 +731,7 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 Vue中的事件修饰符：
 
@@ -746,9 +742,9 @@ Vue中的事件修饰符：
 5. .self：只有event.target为当前操作元素时才会触发事件。
 6. .passive：事件的默认行为会立即执行，无需等待事件回调执行完毕。
 
-#### 1.8.3 键盘事件
+### 1.8.3 键盘事件
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -804,7 +800,7 @@ Vue中的事件修饰符：
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. Vue中常用的案件别名：
 
@@ -838,9 +834,9 @@ Vue中的事件修饰符：
 
 ------
 
-### 1.9 计算属性
+## 1.9 计算属性
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -906,9 +902,7 @@ Vue中的事件修饰符：
 </html>
 ```
 
-
-
-#### summary：
+### summary：
 
 1. 定义：要用的属性不存在，要通过已有属性计算得来。
 
@@ -930,11 +924,11 @@ Vue中的事件修饰符：
 
 ------
 
-### 1.10 监听属性
+## 1.10 监听属性
 
-#### 1.10.1 监听属性
+### 1.10.1 监听属性
 
-##### demo：
+#### demo：
 
 ```html
     <!DOCTYPE html>
@@ -1014,9 +1008,7 @@ Vue中的事件修饰符：
     </html>
 ```
 
-
-
-##### summary：
+#### summary：
 
 监听属性watch：
 
@@ -1030,9 +1022,9 @@ Vue中的事件修饰符：
 
    ​		b. 通过vm.$watch监视。
 
-#### 1.10.2 深度监视
+### 1.10.2 深度监视
 
-##### demo:
+#### demo:
 
 ```html
     <!DOCTYPE html>
@@ -1135,7 +1127,7 @@ Vue中的事件修饰符：
     </html>
 ```
 
-##### summary：
+#### summary：
 
 1. 深度监视：
 
@@ -1151,9 +1143,9 @@ Vue中的事件修饰符：
 
 ------
 
-### 1.11 watch与computed
+## 1.11 watch与computed
 
-#### watch实现computed的demo：
+### watch实现computed的demo：
 
 ```html
 <!DOCTYPE html>
@@ -1205,7 +1197,7 @@ Vue中的事件修饰符：
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. watch与computed之间的区别：
 
@@ -1221,9 +1213,9 @@ Vue中的事件修饰符：
 
 ------
 
-### 1.12 绑定样式
+## 1.12 绑定样式
 
-#### demo:
+### demo:
 
 ```html
 <!DOCTYPE html>
@@ -1327,7 +1319,7 @@ Vue中的事件修饰符：
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. class样式
 
@@ -1347,9 +1339,9 @@ Vue中的事件修饰符：
 
 ------
 
-### 1.13 条件渲染
+## 1.13 条件渲染
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -1424,7 +1416,7 @@ Vue中的事件修饰符：
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. v-if：
 
@@ -1452,11 +1444,11 @@ Vue中的事件修饰符：
 
 ------
 
-### 1.14 列表渲染
+## 1.14 列表渲染
 
-#### 1.14.1 基本列表
+### 1.14.1 基本列表
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -1576,15 +1568,15 @@ Vue中的事件修饰符：
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. v-for 用于展示列表数据。
 2. 语法：v-for = " ( item, index ) in xxx "  :key = " yyy "。
 3. 可以遍历数组、对象、字符串、指定次数。
 
-#### 1.14.2 key的作用及原理
+### 1.14.2 key的作用及原理
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -1683,17 +1675,17 @@ Vue中的事件修饰符：
 </html>
 ```
 
-##### 当key为index时：
+#### 当key为index时：
 
 tips：若不写key，Vue默认index为key。
 
 ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202202334112.png)
 
-##### 当key为id时：
+#### 当key为id时：
 
 ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202202335791.png)
 
-##### summary：
+#### summary：
 
 1. 虚拟dom中key的作用：
 
@@ -1723,7 +1715,7 @@ tips：若不写key，Vue默认index为key。
 
    ​		b. 如果不存在对数据的逆序添加、逆序删除等破坏顺序的操作，仅用于渲染列表和展示，可以使用index来作为key。
 
-#### 1.14.3 列表过滤
+### 1.14.3 列表过滤
 
 ```html
 <!DOCTYPE html>
@@ -1872,7 +1864,7 @@ tips：若不写key，Vue默认index为key。
 </html>
 ```
 
-#### 1.14.4 列表排序
+### 1.14.4 列表排序
 
 ```html
 <!DOCTYPE html>
@@ -1983,9 +1975,9 @@ tips：若不写key，Vue默认index为key。
 </html>
 ```
 
-#### 1.14.5 Vue的数据监测
+### 1.14.5 Vue的数据监测
 
-##### 模拟Vue数据监视：
+#### 模拟Vue数据监视：
 
 ```html
 <!DOCTYPE html>
@@ -2037,7 +2029,7 @@ tips：若不写key，Vue默认index为key。
 
 shortcoming：只能监视一层，无法监视多级结构。
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2176,7 +2168,7 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. Vue会监视data中所有层次的数据。
 
@@ -2204,9 +2196,11 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 5. tips：Vue.set( ) 和 vm.$set( ) 不能给vm或vm的根数据对象添加属性！！！
 
-### 1.15 收集表单数据
+------
 
-#### demo：
+## 1.15 收集表单数据
+
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2308,7 +2302,7 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. 若 <input type='text'>，则 v-model 收集的是 value 值，用户输入的就是 value 值。
 
@@ -2332,9 +2326,11 @@ shortcoming：只能监视一层，无法监视多级结构。
 
    ​		(3). trim：删除首位空格。
 
-### 1.16 过滤器
+------
 
-#### demo：
+## 1.16 过滤器
+
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2411,7 +2407,7 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. 定义：
 
@@ -2431,11 +2427,11 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 ------
 
-### 1.17 内部指令
+## 1.17 内部指令
 
-#### 1.17.1 v-text指令
+### 1.17.1 v-text指令
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2478,14 +2474,14 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. 作用：向其所在的节点中渲染文本内容。
 2. 与插值语法的区别：v-text 会替换掉节点的内容，插值语法不会。
 
-#### 1.17.2 v-html指令
+### 1.17.2 v-html指令
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2527,7 +2523,7 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. 作用：向指定节点中渲染包含 html 结构的内容。
 
@@ -2543,9 +2539,9 @@ shortcoming：只能监视一层，无法监视多级结构。
 
    ​		(2) 一定要在可信的内容上使用 v-html，永远不要用在用户提交的内容上。
 
-#### 1.17.3 v-clock指令
+### 1.17.3 v-clock指令
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2589,14 +2585,14 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. 本质是一个特殊属性，没有值，Vue实例创建完毕并接管容器后，会删掉v-clock属性。
 2. 使用css配合v-clock可以解决网速慢时页面展示出" {{name}} "的问题。
 
-#### 1.17.4 v-once指令
+### 1.17.4 v-once指令
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2637,14 +2633,14 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. v-once所在节点在初次动态渲染后，就被视为静态内容了。
 2. 以后数据的改变不会引起v-once所在结构的更新，可以用于优化性能。
 
-#### 1.17.5 v-pre指令
+### 1.17.5 v-pre指令
 
-##### demo：
+#### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2685,16 +2681,16 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-##### summary：
+#### summary：
 
 1. 跳过其所在的节点的编译过程。
 2. 可利用他跳过没有使用指令语法、没有使用插值语法的节点，加快编译速度。
 
 ------
 
-### 1.18 自定义指令
+## 1.18 自定义指令
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2780,7 +2776,7 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-#### summary：
+### summary：
 
 1. 定义语法：
 
@@ -2804,9 +2800,9 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 ------
 
-### 1.19 生命周期
+## 1.19 生命周期
 
-#### demo：
+### demo：
 
 ```html
 <!DOCTYPE html>
@@ -2886,7 +2882,7 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
-#### summary：
+### summary：
 
 常用的生命周期钩子：
 
@@ -2900,3 +2896,161 @@ shortcoming：只能监视一层，无法监视多级结构。
 3. 一般不会在beforeDestroy操作数据，因为即使操作数据，也不会触发更新流程了。
 
 ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202272338533.png)
+
+------
+
+
+
+# 二、Vue组件化编程
+
+## 2.1 对组件的理解
+
+### 1. 传统方式编写应用：
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202280056387.png)
+
+### 2. 组件化方式编写应用：
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202280056627.png)
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202280056598.png)
+
+------
+
+## 2.2 非单文件组件
+
+### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器1 -->
+    <div id="root1">
+        <hellooo></hellooo>
+        <hr>
+        <school></school>
+        <hr>
+        <student></student>
+    </div>
+    <!--! 容器2 -->
+    <div id="root2">
+        <hellooo></hellooo>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 第一步：创建school组件
+    const school = Vue.extend({
+        template: ` 
+            <div>
+                <h2>shoolName：{{schoolName}}</h2>
+                <h2>address：{{schoolAddress}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                schoolName: 'SUSE',
+                schoolAddress: 'Yibin'
+            }
+        }
+    })
+
+    // 第一步：创建student组件
+    const student = Vue.extend({
+        template: `
+            <div>
+                <h2>studentName：{{studentName}}</h2>
+                <h2>age：{{studentAge}}</h2>
+                <button @click="add">Age++</button>
+            </div>
+        `,
+        data() {
+            return {
+                studentName: 'yahoo',
+                studentAge: 23
+            }
+        },
+        methods: {
+            add() {
+                this.studentAge++
+            }
+        },
+    })
+
+    // 第一步：创建hello组件
+    const hello = Vue.extend({
+        template: `
+            <h1>{{msg}}</h1>
+        `,
+        data() {
+            return {
+                msg: 'hello'
+            }
+        }
+    })
+
+    // 第二步：注册hello组件（全局注册）
+    Vue.component('hellooo', hello)
+
+    // 创建vm实例
+    new Vue({
+        el: '#root1',
+        components: { // 第二步：注册组件（局部注册）
+            school,
+            student
+        },
+        data: {},
+    })
+    
+    new Vue({
+        el: '#root2',
+        data: {},
+    })
+</script>
+
+</html>
+```
+
+### summary：
+
+1. Vue中使用组件的三大步骤：
+
+   ​		(1) 定义组件
+
+   ​		(2) 注册组件
+
+   ​		(3) 使用组件
+
+2. 如何定义组件：
+
+   ​		使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options几乎一样，但也有点不同。区别如下：
+
+   ​		(1) 不能写el，因为最终所有组件都要经过vm管理，由vm中的el决定服务于哪个容器。
+
+   ​		(2) data必须写成函数，因为避免组件被复用时，数据存在引用关系。
+
+   ​		tips：使用template配置组件结构。
+
+3. 如何注册组件：
+
+   ​		(1) 局部注册：靠new Vue的时候传入components选项。
+
+   ​		(2) 全局注册：靠Vue.component('组件名', 组件)
+
+4. 编写组件标签：
+
+   ​		<school> </school>
