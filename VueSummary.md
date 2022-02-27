@@ -2801,3 +2801,100 @@ shortcoming：只能监视一层，无法监视多级结构。
    ​		(1) 指令定义时不加 " v- "，但使用时要加。
 
    ​		(2) 指令名如果是多个单词，要使用kakab-case方式，不要用camelCase命名。
+
+------
+
+### 1.19 生命周期
+
+#### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1 :style="{opacity}">hello {{name}},{{age+1}}</h1>
+        <button @click="addAge">age++</button>
+        <button @click="stop">stopOpacity</button>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        data: {
+            name: 'yahoo',
+            age: 23,
+            opacity: 1
+        },
+        beforeCreate() {
+            console.log('beforeCreate');
+        },
+        created() {
+            console.log('created');
+        },
+        beforeMount() {
+            console.log('beforeMount');
+        },
+        mounted() {
+            console.log('mounted');
+            this.timer = setInterval(() => {
+                console.log('timer');
+                this.opacity -= 0.01
+                if (this.opacity <= 0) this.opacity = 1
+            }, 16)
+        },
+        beforeUpdate() {
+            console.log('beforeUpdated');
+        },
+        updated() {
+            console.log('updated');
+        },
+        beforeDestroy() {
+            console.log('beforeDestroy');
+            clearInterval(this.timer)
+        },
+        destroyed() {
+            console.log('destroyed');
+        },
+        methods: {
+            addAge() {
+                this.age++
+            },
+            stop() {
+                this.$destroy()
+            }
+        },
+    })
+</script>
+
+</html>
+```
+
+#### summary：
+
+常用的生命周期钩子：
+
+1. mounted：发生ajax请求、启动定时器、绑定自定义事件、订阅消息等初始化操作。
+2. beforeDestroy：清除定时器、解绑自定义事件、取消订阅消息等收尾工作。
+
+关于销毁Vue实例：
+
+1. 销毁后Vue Devtools中看不到任何信息。
+2. 销毁后自定义事件会失效，但原生dom事件依然有效。
+3. 一般不会在beforeDestroy操作数据，因为即使操作数据，也不会触发更新流程了。

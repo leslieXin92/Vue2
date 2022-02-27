@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <h1 :style="{opacity}">hello {{name}},{{age+1}}</h1>
+        <button @click="addAge">age++</button>
+        <button @click="stop">stopOpacity</button>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        data: {
+            name: 'yahoo',
+            age: 23,
+            opacity: 1
+        },
+        beforeCreate() {
+            console.log('beforeCreate');
+        },
+        created() {
+            console.log('created');
+        },
+        beforeMount() {
+            console.log('beforeMount');
+        },
+        mounted() {
+            console.log('mounted');
+            this.timer = setInterval(() => {
+                console.log('timer');
+                this.opacity -= 0.01
+                if (this.opacity <= 0) this.opacity = 1
+            }, 16)
+        },
+        beforeUpdate() {
+            console.log('beforeUpdated');
+        },
+        updated() {
+            console.log('updated');
+        },
+        beforeDestroy() {
+            console.log('beforeDestroy');
+            clearInterval(this.timer)
+        },
+        destroyed() {
+            console.log('destroyed');
+        },
+        methods: {
+            addAge() {
+                this.age++
+            },
+            stop() {
+                this.$destroy()
+            }
+        },
+    })
+</script>
+
+</html>
