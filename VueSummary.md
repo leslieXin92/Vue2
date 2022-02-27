@@ -3054,3 +3054,98 @@ shortcoming：只能监视一层，无法监视多级结构。
 4. 编写组件标签：
 
    ​		<school> </school>
+
+## 2.3 几个注意事项
+
+### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器1 -->
+    <div id="root">
+        <!-- 写法一： -->
+        <my-school></my-school>
+        <my-school />
+        <!-- 写法二： -->
+        <MySchool></MySchool>
+        <MySchool />
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    const school = Vue.extend({
+        name: 'collage',
+        template: ` 
+            <div>
+                <h2>shoolName：{{schoolName}}</h2>
+                <h2>address：{{schoolAddress}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                schoolName: 'SUSE',
+                schoolAddress: 'Yibin'
+            }
+        }
+    })
+
+    // 创建vm实例
+    new Vue({
+        el: '#root',
+        components: {
+            'my-school': school, // 写法一
+            MySchool: school // 写法二
+        },
+        data: {},
+    })
+</script>
+
+</html>
+```
+
+### summary：
+
+1. 关于组件名：
+
+   ​		(1) 一个单词组成：
+
+   ​				a. 写法一：首字母小写，school。
+
+   ​				b. 写法二：首字母大写，School。
+
+   ​		(2) 多个单词组成：
+
+   ​				写法一：kebab-case命名，my-school。
+
+   ​				写法二：CamelCase命名，MySchool，但需在脚手架环境。
+
+   ​		(3) tips：
+
+   ​				a. 组件名尽可能回避 html 中已有的元素名称，如 h2、H2。
+
+   ​				b. 可以使用name配置项指定组件在Vue Devtools中呈现的名字。
+
+2. 关于组件标签：
+
+   ​		(1) 写法一：<school> </school>
+
+   ​		(2) 写法二：<school/>，在非脚手架环境中，多个<school/>会导致后续组件不能被渲染。
+
+3. 创建组建的简写方式：
+
+   ​		const school = Vue.extend(options) 可简写为 const school = options
