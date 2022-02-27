@@ -3055,6 +3055,8 @@ shortcoming：只能监视一层，无法监视多级结构。
 
    ​		<school> </school>
 
+------
+
 ## 2.3 几个注意事项
 
 ### demo：
@@ -3149,3 +3151,112 @@ shortcoming：只能监视一层，无法监视多级结构。
 3. 创建组建的简写方式：
 
    ​		const school = Vue.extend(options) 可简写为 const school = options
+
+------
+
+## 2.4 组建的嵌套
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <app> </app>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 定义student组件
+    const student = Vue.extend({
+        template: `
+            <div>
+                <h2>studentName：{{studentName}}</h2>
+                <h2>age：{{studentAge}}</h2>
+                <button @click="add">Age++</button>
+            </div>
+        `,
+        data() {
+            return {
+                studentName: 'yahoo',
+                studentAge: 23
+            }
+        },
+        methods: {
+            add() {
+                this.studentAge++
+            }
+        },
+    })
+
+    // 定义school组件
+    const school = {
+        components: {
+            student
+        },
+        template: ` 
+            <div>
+                <h2>shoolName：{{schoolName}}</h2>
+                <h2>address：{{schoolAddress}}</h2>
+                <student></student>
+            </div>
+        `,
+        data() {
+            return {
+                schoolName: 'SUSE',
+                schoolAddress: 'Yibin'
+            }
+        }
+    }
+
+    // 定义hello组件
+    const hello = {
+        template: `
+            <h1>{{msg}}</h1>
+        `,
+        data() {
+            return {
+                msg: 'hello'
+            }
+        }
+    }
+
+    // 定义app组件
+    const app = {
+        components: {
+            hello,
+            school
+        },
+        template: `
+            <div>
+                <hello></hello>
+                <school></school>
+            </div>
+        `
+    }
+
+    // 创建vm实例
+    new Vue({
+        el: '#root',
+        components: {
+            app
+        },
+    })
+</script>
+
+</html>
+```
+
