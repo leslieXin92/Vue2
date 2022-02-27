@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器1 -->
+    <div id="root">
+        <!-- 写法一： -->
+        <my-school></my-school>
+        <my-school />
+        <!-- 写法二： -->
+        <MySchool></MySchool>
+        <MySchool />
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    const school = Vue.extend({
+        name: 'collage',
+        template: ` 
+            <div>
+                <h2>shoolName：{{schoolName}}</h2>
+                <h2>address：{{schoolAddress}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                schoolName: 'SUSE',
+                schoolAddress: 'Yibin'
+            }
+        }
+    })
+
+    // 创建vm实例
+    new Vue({
+        el: '#root',
+        components: {
+            'my-school': school, // 写法一
+            MySchool: school // 写法二
+        },
+        data: {},
+    })
+</script>
+
+</html>
