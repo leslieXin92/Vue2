@@ -2898,3 +2898,5 @@ shortcoming：只能监视一层，无法监视多级结构。
 1. 销毁后Vue Devtools中看不到任何信息。
 2. 销毁后自定义事件会失效，但原生dom事件依然有效。
 3. 一般不会在beforeDestroy操作数据，因为即使操作数据，也不会触发更新流程了。
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202272338533.png)
