@@ -3260,3 +3260,93 @@ shortcoming：只能监视一层，无法监视多级结构。
 </html>
 ```
 
+------
+
+## 2.5 VueComponent
+
+### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <hello> </hello>
+        <people> </people>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 定义people组件
+    const people = {
+        template: ` 
+            <div>
+                <h2>name：{{name}}</h2>
+                <h2>age：{{age}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                name: 'yahoo',
+                age: 23
+            }
+        }
+    }
+
+    // 定义hello组件
+    const hello = {
+        template: `
+            <h2>{{msg}}</h2>
+        `,
+        data() {
+            return {
+                msg: 'hello'
+            }
+        }
+    }
+
+    // 创建vm实例
+    new Vue({
+        el: '#root',
+        components: {
+            people,
+            hello
+        },
+    })
+
+    console.log('people', people)
+    console.log('hello', hello)
+</script>
+
+</html>
+```
+
+### summary：
+
+1. people组件本质是一个名为VueComponent的构造函数，且不是程序员定义的，是Vue.extend生成的。
+
+2. 我们只需要写<people />或<people> </people>，Vue解析时会帮我们创建people组件的实例对象。
+
+3. 每次调用Vue.extend时，返回的都是一个全新的VueComponent！！！
+
+4. 关于this指向：
+
+   ​		(1) 组件配置中，methods、watch、computed中函数的this都是VueComponent实例对象。
+
+   ​		(2) new Vue(options)配置中，methods、watch、computed中函数的this都是Vue实例对象。
+
+5. VueComponent的实例对象也叫组件实例对象，简称VC，Vue的实例对象简称Vm。
