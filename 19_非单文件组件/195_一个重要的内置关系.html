@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <people> </people>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 追加Vue身上的x属性
+    Vue.prototype.x = 'xxx'
+
+    // 创建people组件
+    const people = {
+        template: `
+            <div>
+                <h2>name：{{name}}</h2>
+                <h2>age：{{age}}</h2>
+                <button @click="showX"> showX </button>
+            </div>
+        `,
+        data() {
+            return {
+                name: 'yahoo',
+                age: 23
+            }
+        },
+        methods: {
+            showX() {
+                alert(this.x)
+            }
+        },
+    }
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        components: {
+            people
+        },
+        data: {}
+    })
+
+    // 创建一个构造函数
+    function Demo() {
+        this.a = 1
+        this.b = 2
+    }
+    // 创建demo的实例对象
+    const newDemo = new Demo()
+
+    console.log('Demo.prototype', Demo.prototype) // 显式原型属性
+    console.log('newDemo.__proto__', newDemo.__proto__) // 隐式原型属性
+    Demo.prototype.x = 100
+    console.log(newDemo.__proto__.x, newDemo.x)
+</script>
+
+</html>

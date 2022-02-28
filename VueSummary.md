@@ -3350,3 +3350,98 @@ shortcoming：只能监视一层，无法监视多级结构。
    ​		(2) new Vue(options)配置中，methods、watch、computed中函数的this都是Vue实例对象。
 
 5. VueComponent的实例对象也叫组件实例对象，简称VC，Vue的实例对象简称Vm。
+
+------
+
+## 2.6 一个重要的内置关系
+
+### demo：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--! 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <!--! 容器 -->
+    <div id="root">
+        <people> </people>
+    </div>
+</body>
+
+<script>
+    // 以阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    // 追加Vue身上的x属性
+    Vue.prototype.x = 'xxx'
+
+    // 创建people组件
+    const people = {
+        template: `
+            <div>
+                <h2>name：{{name}}</h2>
+                <h2>age：{{age}}</h2>
+                <button @click="showX"> showX </button>
+            </div>
+        `,
+        data() {
+            return {
+                name: 'yahoo',
+                age: 23
+            }
+        },
+        methods: {
+            showX() {
+                alert(this.x)
+            }
+        },
+    }
+
+    // 创建vue实例
+    new Vue({
+        el: '#root',
+        components: {
+            people
+        },
+        data: {}
+    })
+
+    // 创建一个构造函数
+    function Demo() {
+        this.a = 1
+        this.b = 2
+    }
+    // 创建demo的实例对象
+    const newDemo = new Demo()
+
+    console.log('Demo.prototype', Demo.prototype) // 显式原型属性
+    console.log('newDemo.__proto__', newDemo.__proto__) // 隐式原型属性
+    Demo.prototype.x = 100
+    console.log(newDemo.__proto__.x, newDemo.x)
+</script>
+
+</html>
+```
+
+### summary：
+
+1. VueComponent.prototype.__proto__ === Vue.prototype
+
+2. 为什么要有这个关系？为了让组件实例对象Vc可以访问到Vue原型上的属性、方法。
+
+3. Vue与VueComponent的关系：
+
+   ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202203010138985.png)
+
+------
+
+## 2.7
