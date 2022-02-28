@@ -3444,4 +3444,129 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 ------
 
-## 2.7
+## 2.7 单文件组件
+
+### 1. index.html：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+        <App> </App>
+    </div>
+</body>
+
+</html>
+```
+
+### 2. main.js：
+
+```javascript
+import App from './App'
+
+new Vue({
+    el: '#root',
+    components: {
+        App
+    }
+})
+```
+
+### 3. App.vue：
+
+```vue
+<template>
+    <div>
+        <School />
+        <Student />
+    </div>
+</template>
+
+<script>
+import School from './School'
+import Student from './Student'
+
+export default {
+    name: 'App',
+    components: {
+        School,
+        Student
+    }
+
+}
+</script>
+
+<style>
+</style>
+```
+
+### 4. School.vue：
+
+```vue
+<template>
+    <div>
+        <h2>school：{{ schoolName }}</h2>
+        <h2>address：{{ address }}</h2>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'School',
+    data () {
+        return {
+            schoolName: 'SUSE',
+            address: 'Yibin'
+        }
+    }
+}
+</script>
+
+<style>
+</style>
+```
+
+### 5. Student.vue：
+
+```vue
+<template>
+    <div class="box">
+        <h1>name：{{ name }}</h1>
+        <h1>age：{{ age }}</h1>
+        <button @click="addAge">age++</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'Student',
+    data () {
+        return {
+            name: 'yahoo',
+            age: 23
+        }
+    },
+    methods: {
+        addAge () {
+            this.age++
+        }
+    },
+}
+</script>
+
+<style>
+.box {
+    background-color: aquamarine;
+}
+</style>
+```
+
