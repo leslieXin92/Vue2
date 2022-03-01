@@ -3700,4 +3700,4 @@ Vue-cli 隐藏了所有webpack相关的配置，若想查看具体的webpack配�
 vue inspect > output.js
 ```
 
-若想自定义个性化配置，参考https://cli.vuejs.org/zh/config/。
+若想自定义个性化配置，参考https://cli.vuejs.org/zh/config/ 。
