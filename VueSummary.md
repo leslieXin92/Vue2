@@ -3701,3 +3701,63 @@ vue inspect > output.js
 ```
 
 若想自定义个性化配置，参考https://cli.vuejs.org/zh/config/ 。
+
+# 四、
+
+## 4.1 ref属性
+
+### demo：
+
+```vue
+<template>
+    <div ref="box">
+        <h1 ref="hello">{{ msg }}</h1>
+        <button @click="showDOM" ref="btn">show dom</button>
+        <School ref="school" id="school" />
+        <Student />
+    </div>
+</template>
+
+<script>
+import School from './components/School'
+import Student from './components/Student'
+
+export default {
+    name: 'App',
+    components: {
+        School,
+        Student
+    },
+    data () {
+        return {
+            msg: 'hello'
+        }
+    },
+    methods: {
+        showDOM () {
+            console.log(this.$refs.hello) // h1真实dom元素
+            console.log(this.$refs.btn) // 按钮真实dom元素
+            console.log(this.$refs.school) // school组件的实例对象(Vc)
+            console.log(document.querySelector('#school')) // school组件的真实dom元素
+            console.log(this.$refs.box) // div真实dom
+        }
+    },
+
+}
+</script>
+
+<style>
+</style>
+```
+
+### summary：
+
+1. 被用来给元素或子组件注册引用信息( id的替代者 )。
+
+2. 应用在html标签上获取的是真实DOM元素，应用在组件标签上是组件实例对象(Vc)。
+
+3. 使用方式：
+
+   ​		打标识：<h1 ref="xxx"> hello </h1>
+
+   ​		获取：this.$refs.xxx
