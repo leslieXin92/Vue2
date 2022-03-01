@@ -3570,3 +3570,134 @@ export default {
 </style>
 ```
 
+# 三、Vue-cli
+
+## 3.1 创建脚手架文件
+
+第一步（仅第一次）：全局安装@Vue/CLI。
+
+```bash
+npm install -g @vue/cli
+```
+
+第二步：进入创建项目的目录，使用命令创建项目。
+
+```bash
+vue create <your project name>
+```
+
+第三步：启动项目。
+
+```bash
+npm run serve
+```
+
+tips：
+
+1. 若出现下载缓慢，请配置npm淘宝镜像。
+
+   ```bash
+   npm config set registry https://registry.npm.taobao.org
+   ```
+
+2. Vue-cli 隐藏了所有webpack相关的配置，若想查看具体的webpack配置，执行下行命令。
+
+   ```bash
+   vue inspect > output.js
+   ```
+
+3. 查看Vue-cli版本。
+
+   ```bash
+   vue -V
+   ```
+
+------
+
+## 3.2 Vue-cli项目目录
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202203012245366.png)
+
+------
+
+## 3.3 render函数
+
+在非脚手架环境中，创建Vue实例的代码为：
+
+```javascript
+new Vue({
+    el: '#app',
+    components: {
+        App
+    },
+    template: `
+		<App> </App>
+	`
+})
+```
+
+在脚手架环境中，main.js函数里创建Vue实例的代码：
+
+```javascript
+new Vue({
+    el: '#app',
+    // 将App组件放入容器中
+    render: h => h(App),
+})
+```
+
+若在脚手架环境中，使用非脚手架环境的创建方法，会报错。
+
+```markdown
+	[Vue warn]: You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.
+(found in <Root>)
+```
+
+### 报错原因：
+
+main.js中使用< import Vue from 'vue' >引入的Vue，是阉割版本的Vue，具体版本为node_modules / vue / package.json 中 "module"对应的版本文件。阉割了模板解析器，无法解析template模板。
+
+### 为什么使用阉割版本的Vue：
+
+在开发环境中，需要解析template模板，但最终由webpack打包后，已将vue文件转换成html、css、js文件，不需要再使用template解析器。为了使打包后的项目文件更小。
+
+### 解决方法：
+
+1. 引入完整版vue。完整版在 node_modules / vue / dist / vue.js。
+
+2. 使用render函数。
+
+   ```javascript
+   render(createElement){
+       console.log(typeof createElement) // function
+       return createElement('h1','hello')
+   }
+   
+   // 可简写为：
+   render:createElement => createElement('h1','hello')
+   
+   // 脚手架环境中：
+   render:h => h(App)
+   ```
+
+### summary：
+
+1. vue.js与vue.runtime.xxx.js的区别：
+
+   ​		(1) vue.js是完整版的Vue，包含核心功能+模板解析器。
+
+   ​		(2) vue.runtime.xxx.js是运行时的Vue，只包含核心功能，没有模板解析器。
+
+2. 因为vue.runtime.xxx.js没有模板解析器，所以不能使用template配置项，需要使用render函数接收到的createElement函数去指定具体内容。
+
+------
+
+## 3.4 修改默认配置
+
+Vue-cli 隐藏了所有webpack相关的配置，若想查看具体的webpack配置，执行下行命令。
+
+```bash
+vue inspect > output.js
+```
+
+若想自定义个性化配置，参考https://cli.vuejs.org/zh/config/。
