@@ -21,14 +21,14 @@ export default {
         }
     },
     // 方法一：简单声明接收
-    props: ['name', 'age', 'sex'],
+    // props: ['name', 'age', 'sex'],
 
     // 方法二：接收数据 + 限制数据类型
-    props: {
-        name: String,
-        age: Number,
-        sex: String
-    },
+    // props: {
+    //     name: String,
+    //     age: Number,
+    //     sex: String
+    // },
 
     // 方法三：接收数据 + 限制数据类型 + 必传限制 + 默认值
     props: {
