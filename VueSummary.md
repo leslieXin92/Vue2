@@ -3897,6 +3897,8 @@ export default {
 
    ​		props是只读的，Vue底层会监视你对props的修改，如果进行了修改，就会发出警告。若业务需求确实需要修改，可复制props的内容到data里，然后对data中数据进行修改。
 
+------
+
 ## 4.3 mixin
 
 ### demo：
@@ -4036,6 +4038,8 @@ export default {
 
    ​						b. 局部使用：mixins: [ ' xxx ' ]。
 
+------
+
 ## 4.4 plugins
 
 ### demo：
@@ -4149,3 +4153,10 @@ export default {
 
 1. 功能：用于增强Vue。
 2. 本质：包含install方法的一个对象，install的第一个参数是Vue，第二个以后的参数是插件使用者自己传递的参数。
+
+------
+
+## 4.5 scoped样式
+
+1. 作用：让样式局部生效，防止类名相同导致样式冲突。
+2. 写法：<style scoped> </style>
