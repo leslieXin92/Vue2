@@ -4035,3 +4035,117 @@ export default {
    ​						a. 全局使用：Vue.mixin( xxx )。
 
    ​						b. 局部使用：mixins: [ ' xxx ' ]。
+
+## 4.4 plugins
+
+### demo：
+
+src / plugins.js：
+
+```javascript
+import Vue from "vue"
+
+export default {
+    install (vue, a, b, c) {
+        console.log('install plugins', vue, a, b, c)
+
+        //! 全局过滤器 
+        Vue.filter('lenFormat', function (val) {
+            return val.slice(0, 4)
+        })
+
+        //! 全局自定义指令 
+        Vue.directive('focus-bind', {
+            // 指令与元素成功绑定时
+            bind (element, binding) {
+                element.value = binding.value * 10
+            },
+            // 指令所在元素被插入页面时
+            inserted (element, binding) {
+                element.focus()
+            },
+            // 指令所在的模板被重新解析时
+            update (element, binding) {
+                element.value = binding.value * 10
+            }
+        })
+
+        //! 全局mixin 
+        Vue.mixin({
+            data () {
+                return {
+                    a: 1,
+                    b: 2
+                }
+            }
+        })
+
+        //! 在Vue原型上添加一个方法 
+        Vue.prototype.hello = () => { alert('hello') }
+
+    },
+}
+```
+
+src / main.js：
+
+```javascript
+// 引入Vue
+import Vue from 'vue'
+
+// 引入App组件
+import App from './App.vue'
+
+// 引入插件
+import plugins from './plugins'
+
+// 关闭Vue的生产提示
+Vue.config.productionTip = false
+
+// 应用插件
+Vue.use(plugins, 1, 2, 3)
+
+// 创建Vue的实例对象
+new Vue({
+    el: '#app',
+    // 将App组件放入容器中
+    render: h => h(App),
+})
+
+```
+
+​	student组件：
+
+```vue
+<template>
+    <div class="student">
+        <h1>name：{{ name | lenFormat }}</h1>
+        <h1>age：{{ age }}</h1>
+        <input type="text" v-focus-bind:value="age" />
+        <button @click="hello()">hello</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'Student',
+    data () {
+        return {
+            name: 'yahoo',
+            age: 23
+        }
+    }
+}
+</script>
+
+<style>
+.student {
+    background-color: aquamarine;
+}
+</style>
+```
+
+### summary：
+
+1. 功能：用于增强Vue。
+2. 本质：包含install方法的一个对象，install的第一个参数是Vue，第二个以后的参数是插件使用者自己传递的参数。
