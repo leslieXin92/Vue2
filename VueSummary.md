@@ -3896,3 +3896,142 @@ export default {
 3. tips：
 
    ​		props是只读的，Vue底层会监视你对props的修改，如果进行了修改，就会发出警告。若业务需求确实需要修改，可复制props的内容到data里，然后对data中数据进行修改。
+
+## 4.3 mixin
+
+### demo：
+
+src / mixin.js ：
+
+```javascript
+export const mixin1 = {
+    methods: {
+        showName () {
+            alert(this.name)
+        }
+    }
+}
+
+export const mixin2 = {
+    data () {
+        return {
+            msg: 'hello'
+        }
+    },
+    mounted () {
+        console.log(this.msg);
+    }
+}
+```
+
+src / main.js：
+
+```javascript
+// 引入Vue
+import Vue from 'vue'
+
+// 引入App组件
+import App from './App.vue'
+
+// 引入mixin
+import { mixin2 } from './mixin'
+
+// 关闭Vue的生产提示
+Vue.config.productionTip = false
+
+// 全局使用mixin
+Vue.mixin(mixin2)
+
+// 创建Vue的实例对象
+new Vue({
+    el: '#app',
+    // 将App组件放入容器中
+    render: h => h(App),
+})
+```
+
+School组件：
+
+```vue
+<template>
+    <div class="school">
+        <h2>school：{{ name }}</h2>
+        <h2>address：{{ address }}</h2>
+        <button @click="showName">show name</button>
+    </div>
+</template>
+
+<script>
+import { mixin1 } from '../mixin'
+
+export default {
+    name: 'School',
+    data () {
+        return {
+            name: 'SUSE',
+            address: 'Yibin'
+        }
+    },
+    mixins: [mixin1]
+}
+</script>
+
+<style>
+.school {
+    background-color: palevioletred;
+}
+</style>
+```
+
+Student组件：
+
+```vue
+<template>
+    <div class="student">
+        <h1>name：{{ name }}</h1>
+        <h1>age：{{ age }}</h1>
+        <button @click="addAge">age++</button>
+        <button @click="showName">show name</button>
+    </div>
+</template>
+
+<script>
+import { mixin1 } from '../mixin'
+
+export default {
+    name: 'Student',
+    data () {
+        return {
+            name: 'yahoo',
+            age: 23
+        }
+    },
+    methods: {
+        addAge () {
+            this.age++
+        }
+    },
+    mixins: [mixin1]
+}
+</script>
+
+<style>
+.student {
+    background-color: aquamarine;
+}
+</style>
+```
+
+### summary：
+
+1. 功能：可以把多个组件公用的配置提取成一个mixin对象。
+
+2. 使用方式：
+
+   ​		(1) 第一步：定义mixin。
+
+   ​		(2) 第二步：使用mixin。
+
+   ​						a. 全局使用：Vue.mixin( xxx )。
+
+   ​						b. 局部使用：mixins: [ ' xxx ' ]。
