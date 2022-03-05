@@ -4493,6 +4493,8 @@ button {
    },
    ```
 
+------
+
 ## 4.8 消息订阅与发布
 
 ### demo：
@@ -4632,6 +4634,8 @@ button {
    },
    ```
 
+------
+
 ## 4.9 nextTick
 
 1. 语法：
@@ -4643,3 +4647,162 @@ button {
 2. 作用：在下一次DOM更新结束后执行callback。
 
 3. 应用场景：当改变数据后，要基于更新后的DOM进行操作时，要在nextTick的回调中执行操作。
+
+------
+
+## 4.10 动画与过渡
+
+### 4.10.1 动画
+
+```vue
+<template>
+    <div>
+        <button @click="handleShow">show/hide</button>
+        
+        <transition name="hello" appear>
+            <h2 v-show="isShow">hello</h2>
+        </transition>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'hello',
+    data () {
+        return {
+            isShow: true
+        }
+    },
+    methods: {
+        handleShow () {
+            this.isShow = !this.isShow
+        }
+    }
+}
+</script>
+
+<style>
+h2 {
+    background-color: paleturquoise;
+}
+
+.hello-enter-active {
+    animation: yahu 1s ease-in;
+}
+
+.hello-leave-active {
+    animation: yahu 1s ease-out reverse;
+}
+
+@keyframes yahu {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+</style>
+```
+
+### 4.10.2 过渡
+
+```vue
+<template>
+    <div>
+        <button @click="handleShow">show/hide</button>
+
+        <transition name="hello" appear>
+            <h2 v-show="isShow">hello</h2>
+        </transition>
+
+        <transition-group name="hello" appear>
+            <h2 v-show="isShow" key="1">hello</h2>
+            <h2 v-show="isShow" key="2">hello</h2>
+        </transition-group>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'hello',
+    data () {
+        return {
+            isShow: true
+        }
+    },
+    methods: {
+        handleShow () {
+            this.isShow = !this.isShow
+        }
+    }
+}
+</script>
+
+<style>
+h2 {
+    background-color: paleturquoise;
+}
+
+/* 进入的起点、离开的重点 */
+.hello-enter,
+.hello-leave-to {
+    transform: translateX(-100%);
+}
+
+/* 进入过程、离开过程 */
+.hello-enter-active,
+.hello-leave-active {
+    transition: 0.5s linear;
+}
+
+/* 进入的重点、离开的起点 */
+.hello-enter-to,
+.hello-leave {
+    transform: translateX(0);
+}
+</style>
+```
+
+### summary：
+
+1. 作用：在插入、更新或移除DOM元素时，在合适的时候给元素添加样式类名。
+
+2. 图示：![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202203060455661.png)
+
+3. 类名：
+
+   ​		(1) 元素进入的样式类名：
+
+   ​				a. v-enter：进入的起点。
+
+   ​				b. v-enter-active：进入过程中。
+
+   ​				c. v-enter-to：进入的终点。
+
+   ​		(2) 元素离开的样式类名：
+
+   ​				a. v-leave：离开的起点。
+
+   ​				b. v-leave-active：离开过程中。
+
+   ​				c. v-leave-to：离开的终点。
+
+4. 使用<transition>标签包裹要过渡的元素，并配置name属性。
+
+   ```html
+   <transition name="hello" appear>
+       <h2 v-show="isShow"> hello </h2>
+   </transition>
+   ```
+
+5. 若有多个元素要过渡，则需要使用<transition-group>标签包裹，且每个元素都要设置key值。
+
+   ```html
+   <transition-group name="hello" appear>
+       <h2 v-show="isShow" key="1"> hello </h2>
+       <h2 v-show="isShow" key="2"> hello </h2>
+   </transition-group>
+   ```
+
+   
