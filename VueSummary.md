@@ -4493,4 +4493,143 @@ button {
    },
    ```
 
+## 4.8 消息订阅与发布
+
+### demo：
+
+School组件：
+
+```vue
+<template>
+    <div class="school">
+        <h2>school：{{ schoolName }}</h2>
+        <h2>address：{{ address }}</h2>
+    </div>
+</template>
+
+<script>
+// 引入pubsub-js
+import pubsub from 'pubsub-js'
+
+export default {
+    name: 'School',
+    data () {
+        return {
+            schoolName: 'SUSE',
+            address: 'Yibin'
+        }
+    },
+    mounted () {
+        // 订阅hello消息
+        this.pubId = pubsub.subscribe('hello', this.showStudentName)
+    },
+    beforeDestroy () {
+        // 取消订阅hello消息
+        pubsub.unsubscribe(this.pubId)
+    },
+    methods: {
+        showStudentName (msgName, data) {
+            alert(`${msgName} ${data}`)
+        }
+    }
+}
+</script>
+
+<style>
+.school {
+    background-color: palevioletred;
+}
+</style>
+```
+
+Student组件：
+
+```vue
+<template>
+    <div class="student">
+        <h1>name：{{ name }}</h1>
+        <h1>age：{{ age }}</h1>
+        <button @click="sendName">send name to school</button>
+    </div>
+</template>
+
+<script>
+// 引入pubsub-js
+import pubsub from 'pubsub-js'
+
+export default {
+    name: 'Student',
+    data () {
+        return {
+            name: 'yahoo',
+            age: 23
+        }
+    },
+    methods: {
+        sendName () {
+            // 发布hello消息
+            pubsub.publish('hello', this.name)
+        }
+    }
+
+}
+</script>
+
+<style>
+.student {
+    background-color: aquamarine;
+}
+button {
+    margin-right: 10px;
+}
+</style>
+```
+
+### summary：
+
+1. 组件间通信的方式，适用于任意组件间通信。
+
+2. 不止只有Vue才有，React、Angular都有，它是一种设计模式。
+
+3. 使用步骤：
+
+   ​		(1) 安装pubsub：
+
+   ```bash
+   npm i pubsub-js
+   ```
+
+   ​		(2) 引入：
+
+   ```javascript
+   import pubsub from 'pubsub-js'
+   ```
+
+   ​		(3) 接收数据：A组件想要接收数据，就在A组件中订阅消息，订阅的callback写在A组件。
+
+   ```javascript
+   mounted(){
+       this.pubId = pubsub.subscribe('hello', this.yahu)
+   },
+   methods:{
+       yahu(data){
+           ......
+       }
+   }
+   ```
+
+   ​		(4) 提供数据：
+
+   ```javascript
+   pubsub.unsubscript(pubId)
+   ```
+
+4. 最好在beforeDestroy钩子中取消订阅：
+
+   ```javascript
+   beforeDestroy () {
+       pubsub.unsubscribe(this.pubId)
+   },
+   ```
+
    
