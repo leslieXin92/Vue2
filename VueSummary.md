@@ -4160,3 +4160,189 @@ export default {
 
 1. 作用：让样式局部生效，防止类名相同导致样式冲突。
 2. 写法：<style scoped> </style>
+
+------
+
+## 4.6 自定义事件
+
+### demo：
+
+App组件：
+
+```vue
+<template>
+    <div>
+        <!-- 使用props子传父 -->
+        <School :showSchoolName="showSchoolName" />
+        <!-- 使用自定义事件子传父 -->
+        <Student v-on:showStudentName="showStudentName" v-on:showStudentAge="showStudentAge" />
+        <Student @showStudentName="showStudentName" @showStudentAge="showStudentAge" />
+        <!-- 使用ref子传父 -->
+        <Student ref="student" @click.native="show" />
+    </div>
+</template>
+
+<script>
+import School from './components/School'
+import Student from './components/Student'
+
+export default {
+    name: 'App',
+    components: {
+        School,
+        Student
+    },
+    mounted () {
+        setTimeout(() => {
+            this.$refs.student.$on('showStudentName', this.showStudentName)
+            this.$refs.student.$on('showStudentAge', this.showStudentAge)
+        }, 3000)
+    },
+    methods: {
+        showSchoolName (name) {
+            alert(name)
+        },
+        showStudentName (name) {
+            alert(name)
+        },
+        showStudentAge (age) {
+            alert(age)
+        },
+        show () {
+            alert(1)
+        }
+    }
+}
+</script>
+
+<style>
+</style>
+```
+
+School组件：
+
+```vue
+<template>
+    <div class="school">
+        <h2>school：{{ schoolName }}</h2>
+        <h2>address：{{ address }}</h2>
+        <button @click="sendSchoolName">show school name</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'School',
+    props: ['showSchoolName'],
+    data () {
+        return {
+            schoolName: 'SUSE',
+            address: 'Yibin'
+        }
+    },
+    methods: {
+        sendSchoolName () {
+            this.showSchoolName(this.schoolName)
+        }
+    }
+}
+</script>
+
+<style>
+.school {
+    background-color: palevioletred;
+}
+</style>
+```
+
+Student组件：
+
+```vue
+<template>
+    <div class="student">
+        <h1>name：{{ name }}</h1>
+        <h1>age：{{ age }}</h1>
+        <button @click="sendStudentName">show student name</button>
+        <button @click="sendStudentAge">show student age</button>
+        <button @click="unbindEvent">unbind event</button>
+        <button @click="death">destroy</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'Student',
+    data () {
+        return {
+            name: 'yahoo',
+            age: 23
+        }
+    },
+    methods: {
+        sendStudentName () {
+            this.$emit('showStudentName', this.name)
+        },
+        sendStudentAge () {
+            this.$emit('showStudentAge', this.age)
+        },
+        unbindEvent () {
+            // 解绑一个自定义事件
+            this.$off('showStudentName')
+            // 解绑一些自定义事件
+            this.$off(['showStudentName', 'showStudentAge'])
+            // 解绑所有自定义事件
+            this.$off()
+        },
+        death () {
+            // 销毁Student组件，销毁后自定义事件全部不奏效。
+            this.$destroy()
+        }
+    }
+
+}
+</script>
+
+<style>
+.student {
+    background-color: aquamarine;
+}
+button {
+    margin-right: 10px;
+}
+</style>
+```
+
+### summary：
+
+1. 子组件 给 父组件 传值。
+
+2. 使用场景：子给父传值，在父中给子绑定自定义事件，事件回调在父中定义。
+
+3. 绑定自定义事件：
+
+   ```vue
+   (1) 方法一：在父组件中
+   <Demo v-on:yahu="test" /> 或 <Demo @yahu="test" />
+   
+   (2) 方法二：在父组件中
+   <Demo ref="demo"> 
+   	……
+   mounted( ) {
+   	this.$refs.xxx.$on('yahu',this.test) 
+   }
+   (3)若想让自定义只触发一次，可以使用once修饰符或$once方法。
+   ```
+
+4. 触发自定义事件：this.$emit ( 'yahu', data )。
+
+5. 解绑自定义事件：this.$off ( 'yahu' )。
+
+6. 组件上也可以绑定原生dom事件，需要用native修饰符。
+
+7. tips：
+
+   ```javascript
+   通过 this.$refs.xxx.$on('yahu'，callback) 绑定自定义事件时，回调要么匹配在methods中，要么用箭头函数，否则this指向会出问题。
+   ```
+
+   
