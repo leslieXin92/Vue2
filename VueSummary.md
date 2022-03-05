@@ -4345,4 +4345,152 @@ button {
    通过 this.$refs.xxx.$on('yahu'，callback) 绑定自定义事件时，回调要么匹配在methods中，要么用箭头函数，否则this指向会出问题。
    ```
 
+------
+
+## 4.7 全局事物总线
+
+### demo：
+
+main.js：
+
+```javascript
+// 引入Vue
+import Vue from 'vue'
+
+// 引入App组件
+import App from './App.vue'
+
+// 关闭Vue的生产提示
+Vue.config.productionTip = false
+
+// 创建Vue的实例对象
+new Vue({
+    el: '#app',
+    // 将App组件放入容器中
+    render: h => h(App),
+    beforeCreate () {
+        // 安装全局事件总线
+        Vue.prototype.$bus = this
+    }
+})
+
+```
+
+School组件：
+
+```vue
+<template>
+    <div class="school">
+        <h2>school：{{ schoolName }}</h2>
+        <h2>address：{{ address }}</h2>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'School',
+    data () {
+        return {
+            schoolName: 'SUSE',
+            address: 'Yibin'
+        }
+    },
+    mounted () {
+        // 注册自定义事件studentToSchool
+        this.$bus.$on('studentToSchool', this.showStudentName)
+    },
+    beforeDestroy () {
+        // 销毁自定义事件studentToSchool
+        this.$bus.$off('studentToSchool')
+    },
+    methods: {
+        showStudentName (name) {
+            alert(name)
+        }
+    }
+}
+</script>
+
+<style>
+.school {
+    background-color: palevioletred;
+}
+</style>
+```
+
+Student组件：
+
+```vue
+<template>
+    <div class="student">
+        <h1>name：{{ name }}</h1>
+        <h1>age：{{ age }}</h1>
+        <button @click="sendName">send name to school</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'Student',
+    data () {
+        return {
+            name: 'yahoo',
+            age: 23
+        }
+    },
+    methods: {
+        sendName () {
+            // 触发自定义事件studentToSchool
+            this.$bus.$emit('studentToSchool', this.name)
+        }
+    }
+
+}
+</script>
+
+<style>
+.student {
+    background-color: aquamarine;
+}
+button {
+    margin-right: 10px;
+}
+</style>
+```
+
+### summary：
+
+1. 一种组件间通信的方式，适用于任意组件间通信。
+
+2. 安装全局事件总线。详情见demo中的main.js。
+
+3. 使用事件总线：
+
+   ​		(1) 接收数据：A组件接收数据，就在A组件中绑定自定义事件，自定义事件的callback也写在A组件。
+
+   ```javascript
+   mounted(){
+   	this.$bus.$on('xxx',this.yahu)
+   }
+   methods:{
+       yahu(data){
+           ......
+       }
+   }
+   ```
+
+   ​		(2) 提供数据：
+
+   ```javascript
+   this.$bus.$on('xxx', data)
+   ```
+
+4. 最好在A组件的beforeDestroy钩子中，解绑自定义事件。
+
+   ```javascript
+   beforeDestroy () {
+       this.$bus.$off('xxx')
+   },
+   ```
+
    
