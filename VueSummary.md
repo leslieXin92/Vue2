@@ -4632,4 +4632,14 @@ button {
    },
    ```
 
-   
+## 4.9 nextTick
+
+1. 语法：
+
+   ```javascript
+   this.$nextTick(callback)
+   ```
+
+2. 作用：在下一次DOM更新结束后执行callback。
+
+3. 应用场景：当改变数据后，要基于更新后的DOM进行操作时，要在nextTick的回调中执行操作。
