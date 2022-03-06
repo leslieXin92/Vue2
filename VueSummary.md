@@ -4623,7 +4623,7 @@ button {
    ​		(4) 提供数据：
 
    ```javascript
-   pubsub.unsubscript(pubId)
+   pubsub.publish('hello',data)
    ```
 
 4. 最好在beforeDestroy钩子中取消订阅：
