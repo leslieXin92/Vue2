@@ -340,8 +340,6 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-------
-
 ### summary：
 
 1. M：模型 ( model )	→	data里的数据。
@@ -473,8 +471,6 @@ Vue有两种数据绑定的方式。
 </html>
 ```
 
-![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202180155379.png)
-
 ### summary：
 
 1. Vue中的数据代理：通过vm对象来代理data对象中属性的操作（读 / 写）。
@@ -488,6 +484,8 @@ Vue有两种数据绑定的方式。
    ​		为每一个添加到vm上的属性，都指定一个getter和setter；
 
    ​		在getter和setter的内部去操作（读 / 写）data中对应的属性。
+   
+   ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202180155379.png)
 
 ------
 
@@ -4902,3 +4900,430 @@ export default {
 
    ​		缺点：配置略微繁琐，请求时必须加前缀。
 
+------
+
+## 4.12 插槽
+
+### 4.12.1 默认插槽
+
+App组件：
+
+```vue
+<template>
+    <div class="box">
+        <List :list="yahoo">
+            <img src="../src/assets/logo.png" />
+        </List>
+
+        <List :list="cabbage">
+            <ul>
+                <li v-for="(item, index) in cabbage" :key="index">{{ item }}</li>
+            </ul>
+        </List>
+
+        <List :list="leslie">
+            <img src="../src/assets/logo.png" />
+        </List>
+    </div>
+</template>
+
+<script>
+import List from './components/List'
+
+export default {
+    name: 'App',
+    components: { List },
+    data () {
+        return {
+            yahoo: { name: 'yahoo', age: 23, sex: 'boy' },
+            cabbage: { name: 'cabbage', age: 22, sex: 'girl' },
+            leslie: { name: 'leslie', age: 65, sex: 'boy' },
+        }
+    },
+}
+</script>
+
+<style>
+.box {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 150px;
+}
+img {
+    width: 100%;
+}
+li {
+    margin-top: 30px;
+}
+</style>
+```
+
+List组件：
+
+```vue
+<template>
+    <div class="list">
+        <h2>{{ list.name }}</h2>
+        <slot>若没有传值则显示这段文字。</slot>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'List',
+    props: ['list']
+}
+</script>
+
+<style>
+.list {
+    width: 200px;
+    height: 300px;
+    background-color: paleturquoise;
+}
+h2 {
+    text-align: center;
+}
+</style>
+```
+
+最终样式：
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202203070050086.png)
+
+### 4.12.2 具名插槽
+
+App组件：
+
+```vue
+<template>
+    <div class="box">
+        <List :list="yahoo">
+            <img slot="content" src="../src/assets/logo.png" />
+            <a slot="link" href="https://cn.vuejs.org/">进入Vue官网</a>
+        </List>
+
+        <List :list="cabbage">
+            <ul slot="content">
+                <li v-for="(item, index) in cabbage" :key="index">{{ item }}</li>
+            </ul>
+            <a slot="link" href="https://www.baidu.com">进入百度</a>
+            <a slot="link" href="https://www.google.com.hk/">进入谷歌</a>
+        </List>
+
+        <List :list="leslie">
+            <img slot="content" src="../src/assets/React.png" />
+            <template slot="link">
+                <a href="https://zh-hans.reactjs.org/">进入React官网</a>
+            </template>
+        </List>
+    </div>
+</template>
+
+<script>
+import List from './components/List'
+
+export default {
+    name: 'App',
+    components: { List },
+    data () {
+        return {
+            yahoo: { name: 'yahoo', age: 23, sex: 'boy' },
+            cabbage: { name: 'cabbage', age: 22, sex: 'girl' },
+            leslie: { name: 'leslie', age: 65, sex: 'boy' },
+        }
+    },
+}
+</script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.box {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 150px;
+}
+img {
+    width: 100%;
+}
+li {
+    width: 150px;
+    height: 40px;
+    margin: 15px;
+    list-style: none;
+    text-align: center;
+    line-height: 40px;
+}
+a {
+    margin: 5px 0;
+}
+</style>
+```
+
+List组件：
+
+```vue
+<template>
+    <div class="list">
+        <h2>{{ list.name }}</h2>
+        <slot name="content">若没有传值则显示这段文字。</slot>
+        <slot name="link">若没有传值则显示这段文字。</slot>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'List',
+    props: ['list']
+}
+</script>
+
+<style>
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    height: 300px;
+    background-color: paleturquoise;
+}
+h2 {
+    margin: 10px 0;
+    text-align: center;
+}
+</style>
+```
+
+最终样式：
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202203070119121.png)
+
+### 4.12.3 作用域插槽
+
+App组件：
+
+```vue
+<template>
+    <div class="box">
+        <List>
+            <template scope="yahu">
+                <ul>
+                    <li v-for="(item, index) in yahu.yahoo" :key="index">
+                        {{ item }}
+    				</li>
+                </ul>
+            </template>
+        </List>
+
+        <List>
+            <template scope="yahoo">
+                <i v-for="(item, index) in yahoo.yahoo" :key="index">
+                    {{ item }}
+                </i>
+            </template>
+        </List>
+
+        <List>
+            <template scope="{ yahoo }">
+                <b v-for="(item, index) in yahoo" :key="index">
+                    {{ item }}
+                </b>
+            </template>
+        </List>
+    </div>
+</template>
+
+<script>
+import List from './components/List'
+
+export default {
+    name: 'App',
+    components: { List },
+}
+</script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.box {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 150px;
+}
+img {
+    width: 100%;
+}
+li {
+    width: 150px;
+    height: 40px;
+    margin: 15px;
+    list-style: none;
+    text-align: center;
+    line-height: 40px;
+}
+</style>
+```
+
+List组件：
+
+```vue
+<template>
+    <div class="list">
+        <h2>{{ yahoo.name }}</h2>
+        <slot :yahoo="yahoo">若没有传值则显示这段文字。</slot>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'List',
+    props: ['list'],
+    data () {
+        return {
+            yahoo: { name: 'yahoo', age: 23, sex: 'boy' },
+        }
+    },
+}
+</script>
+
+<style>
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    height: 300px;
+    background-color: paleturquoise;
+}
+h2 {
+    margin: 10px 0;
+    text-align: center;
+}
+</style>
+```
+
+最终样式：
+
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202203070137712.png)
+
+### summary：
+
+1. 作用：让父组件可以向子组件指定的位置插入HTML结构，也是一种组件间通讯的方式，适用于父传子。
+
+2. 分类：默认插槽、具名插槽、作用域插槽。
+
+3. 使用方式：
+
+   1. 默认插槽：
+
+      ​		父组件：
+
+      ```html
+      <Son>
+      	<div> HTML结构 </div>
+      </Son>
+      ```
+
+      ​		子组件：
+
+      ```html
+      <template>
+      	<div>
+              <slot> 插槽默认内容 </slot>
+          </div>
+      </template>
+      ```
+
+   2. 具名插槽：
+
+      ​		父组件：
+
+      ```html
+      <Son>
+          <template slot="yahoo">
+              <div> HTML结构 </div>
+          </template>
+          
+          <template v-slot:cabbage>
+              <div> HTML结构 </div>
+          </template>
+      </Son>
+      ```
+
+      ​		子组件：
+
+      ```html
+      <template>
+          <div>
+              <slot name="yahoo"> 插槽默认内容 </slot>
+              <slot name="cabbage"> 插槽默认内容 </slot>
+          </div>
+      </template>
+      ```
+
+   3. 作用域插槽：
+
+      ​		应用场景：数据在组件的自身，但根据数据生成的结构需要组件的使用者来决定。
+
+      ​		code：
+
+      ​				父组件：
+
+      ```html
+      <Son>
+          <template scope="yahu">
+              <ul>
+                  <li v-for="(item, index) in yahu.yahoo" :key="index">
+                      {{ item }}
+                  </li>
+              </ul>
+          </template>
+      </Son>
+      
+      <Son>
+          <template scope="yahoo">
+              <i v-for="(item, index) in yahoo.yahoo" :key="index">
+                  {{ item }}
+              </i>
+          </template>
+      </Son>
+      
+      <Son>
+          <template scope="{ yahoo }">
+              <b v-for="(item, index) in yahoo" :key="index">
+                  {{ item }}
+              </b>
+          </template>
+      </Son>
+      ```
+
+      ​				子组件：
+
+      ```vue
+      <template>
+          <div>
+              <slot :yahoo="yahoo"> 若没有传值则显示这段文字。 </slot>
+          </div>
+      </template>
+      
+      <script>
+      export default {
+          data () {
+              return {
+                  yahoo: { name: 'yahoo', age: 23, sex: 'boy' },
+              }
+          },
+      }
+      </script>
+      ```
+
+      
