@@ -4805,4 +4805,100 @@ h2 {
    </transition-group>
    ```
 
-   
+
+------
+
+## 4.11 Vue-cli配置代理
+
+### demo：
+
+vue.config.js：
+
+```javascript
+module.exports = {
+    // 开启代理服务器：方式一
+    devServer: {
+        proxy: 'http://localhost:5000'
+    },
+
+    // 开启代理服务器：方式二
+    devServer: {
+        proxy: {
+            '/yaHu': { // 请求前缀
+                target: 'http://localhost:5000',
+                pathRewrite:{'^/yaHu':''}, // 资源服务器接收代理服务器的api中过滤掉前缀
+                ws: true, // 用于支持websocket
+                changeOrigin: true //用于控制请求头host字段，true改为资源服务器，false改为请求服务器
+            },
+            '/huoHua': {
+                target: 'http://localhost:5001',
+                pathRewrite:{'^/huoHua':''},
+                ws: true,
+                changeOrigin: true
+            }
+        }
+    }
+}
+```
+
+App组件：
+
+```vue
+<template>
+    <div>
+        <button @click="showMsg(1)">click show msg</button>
+        <button @click="showMsg(2)">click show msg</button>
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+    name: 'App',
+    methods: {
+        showMsg (type) {
+            if (type === 1) {
+                axios.get('http://localhost:8080/yaHu/students').then(
+                    response => {
+                        console.log('请求成功', response.data)
+                    },
+                    error => {
+                        console.log('请求失败', error.message)
+                    }
+                )
+            } else if (type === 2) {
+                axios.get('http://localhost:8080/huoHua/cars').then(
+                    response => {
+                        console.log('请求成功', response.data)
+                    },
+                    error => {
+                        console.log('请求失败', error.message)
+                    }
+                )
+            }
+        }
+    }
+}
+</script>
+
+<style>
+</style>
+```
+
+### summary：
+
+1. 方式一：
+
+   ​		优点：配置简单，请求资源时直接发给前端8080即可。
+
+   ​		缺点：不能配置多个代理，不能灵活控制请求是否走代理。
+
+   ​		工作方式：当请求了前端不存在的资源时，才会请求服务器，优先匹配前端资源。
+
+2. 方式二：
+
+   ​		优点：可以配置多个代理，并且可以灵活控制请求是否走代理。
+
+   ​		缺点：配置略微繁琐，请求时必须加前缀。
+
