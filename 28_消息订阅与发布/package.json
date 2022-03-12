@@ -1,5 +1,5 @@
 {
-  "name": "yahoo",
+  "name": "消息订阅与发布",
   "version": "0.1.0",
   "private": true,
   "scripts": {

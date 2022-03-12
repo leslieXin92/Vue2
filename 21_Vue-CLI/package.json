@@ -1,5 +1,5 @@
 {
-    "name": "yahoo",
+    "name": "Vue-cli",
     "version": "0.1.0",
     "private": true,
     "scripts": {
@@ -32,9 +32,7 @@
         "parserOptions": {
             "parser": "babel-eslint"
         },
-        "rules": {
-            "no-unused-vars": "off"
-        }
+        "rules": {}
     },
     "browserslist": [
         "> 1%",

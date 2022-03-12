@@ -15,8 +15,8 @@
 ### 特点：
 
 1. 采用组件化模式，提高代码复用率以及可维护性。
-2. 声明式编码，无需直接操控dom，提高开发效率。
-3. 使用虚拟dom + diff算法，尽量复用dom节点。
+2. 声明式编码，无需直接操控 DOM，提高开发效率。
+3. 使用虚拟 DOM + Diff 算法，尽量复用 DOM 节点。
 
 ------
 
@@ -34,7 +34,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -63,23 +64,15 @@
 
 ### summary：
 
-1. 想让Vue工作，就必须创建一个Vue实例，且要传入一个配置对象。
-
-2. root容器里的代码依然符合html规范，只不过加入了一些特殊的Vue语法。
-
-3. root容器里的代码被称为 " Vue模板 " 。
-
-4. Vue实例和容器时一 一对应的。
-
-5. 真实开发中只有一个Vue实例，配合组件一起使用。
-
+1. 想让 Vue 作，就必须创建一个 Vue 实例，且要传入一个配置对象。
+2. root 容器里的代码依然符合 HTML 规范，只不过加入了一些特殊的 Vue 语法。
+3. root 容器里的代码被称为 " Vue 模板 " 。
+4. Vue 实例和容器时一 一对应的。
+5. 真实开发中只有一个 Vue 实例，配合组件一起使用。
 6. 双括号内写JS表达式。
-
-   ​		JS表达式：一个表达式会产生一个值（a，a+b，function(val)，a===b ? true : false ）
-
-   ​		JS语句（ if ( ) { }，for ( ) { } ）
-
-7. 一旦data中的数据发生改变，那么页面中用到该数据的地方也会自动更新。
+   1. JS表达式：一个表达式会产生一个值（a，a+b，function ( val ) ，a===b ? true : false ）
+   2. JS语句（ if ( ) { }，for ( ) { } ）
+7. 一旦 data 中的数据发生改变，那么页面中用到该数据的地方也会自动更新。
 
 ------
 
@@ -97,7 +90,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -134,19 +128,14 @@
 
 ### summary：
 
-Vue模板语法分为两大类。
+Vue模板语法分为两大类：
 
 1. 插值语法：
-
-   ​		功能：用于解析标签体内容。
-
-   ​		写法：{{ name }} 。
-
+   1. 功能：用于解析标签体内容。
+   2. 写法：{{ name }} 。
 2. 指令语法：
-
-   ​		功能：用于解析标签（标签属性、标签体内容、绑定事件……）。
-
-   ​		例子：v-bind : value = '1'，或简写为 :value = '1'。
+   1. 功能：用于解析标签（标签属性、标签体内容、绑定事件……）。
+   2. 例子：v-bind : value = '1'，或简写为 :value = '1'。
 
 ------
 
@@ -164,7 +153,8 @@ Vue模板语法分为两大类。
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -203,8 +193,8 @@ Vue模板语法分为两大类。
 
 Vue有两种数据绑定的方式。
 
-1. 单项绑定（v-bind）：数据只能从data流向页面。v-bind : value = ' value ' 简写为 : value = ' value '。
-2. 双向绑定（v-model）：数据在data和页面双向流动。v-model : value = ' value ' 简写为 v-model = ' value '。
+1. 单项绑定 ( v-bind ) ：数据只能从 data 流向页面。【v-bind : value = ' value '】 简写为 【: value = ' value '】。
+2. 双向绑定 ( v-model ) ：数据在 data 和页面双向流动。【v-model : value = ' value ' 】简写为 【v-model = ' value '】。
 
 ------
 
@@ -222,7 +212,8 @@ Vue有两种数据绑定的方式。
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -282,19 +273,16 @@ Vue有两种数据绑定的方式。
 
 1.  el有两种写法：
 
-   ​		（1）new Vue时配置el属性。
-
-   ​		（2）先创建Vue实例，再通过vm.$mount ( ' #root ' ) 指定el的值。 
-
+   1.  new Vue 时配置 el 属性。
+   2.  先创建 Vue 实例，再通过 vm.$mount ( ' #root ' )  指定 el 的值。 
 2. data有两种写法：
 
-   ​		（1）对象式
-
-   ​		（2）函数式
+   1.  对象式
+   2.  函数式
 
 3. 重要原则：
 
-   ​		由Vue管理的函数，一定不要写箭头函数，因为用了箭头函数后this就不再是Vue实例了，而是window。
+   ​		由Vue管理的函数，一定不要写箭头函数，因为用了箭头函数后 this 就不再是 Vue 实例了，而是window。
 
 ------
 
@@ -312,7 +300,8 @@ Vue有两种数据绑定的方式。
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -474,18 +463,13 @@ Vue有两种数据绑定的方式。
 ### summary：
 
 1. Vue中的数据代理：通过vm对象来代理data对象中属性的操作（读 / 写）。
-
 2. Vue中数据代理的好处：更加方便的操作data里的数据。
-
 3. 基本原理：
+   1. 通过Object.defineProperty( )把data对象中所有属性添加到vm上；
+   2. 为每一个添加到vm上的属性，都指定一个getter和setter；
+   3. 在getter和setter的内部去操作（读 / 写）data中对应的属性。
 
-   ​		通过Object.defineProperty( )把data对象中所有属性添加到vm上；
-
-   ​		为每一个添加到vm上的属性，都指定一个getter和setter；
-
-   ​		在getter和setter的内部去操作（读 / 写）data中对应的属性。
-   
-   ![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202180155379.png)
+![](http://cdn.jsdelivr.net/gh/leslieXin92/picGo/img/202202180155379.png)
 
 ------
 
@@ -505,7 +489,8 @@ Vue有两种数据绑定的方式。
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -564,12 +549,12 @@ Vue有两种数据绑定的方式。
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
     <style>
         * {
             margin: 10px;
         }
-
         .box {
             display: flex;
             justify-content: space-around;
@@ -577,18 +562,15 @@ Vue有两种数据绑定的方式。
             height: auto;
             background-color: paleturquoise;
         }
-
         .father {
             margin: auto;
             padding: 5px;
             border: 2px solid red;
             background-color: paleturquoise;
         }
-
         .son {
             background-color: orangered;
         }
-
         ul {
             list-style: none;
             border: 2px solid red;
@@ -596,7 +578,6 @@ Vue有两种数据绑定的方式。
             height: 200px;
             overflow: scroll;
         }
-
         li {
             height: 100px;
             background-color: orangered;
@@ -610,8 +591,12 @@ Vue有两种数据绑定的方式。
         <h1>hello {{name}}</h1>
         <!--? 阻止默认事件 -->
         <div class="box">
-            <a href="http://www.baidu.com" @click="showAge1">阻止默认事件</a>
-            <a href="http://www.baidu.com" @click.prevent="showAge2">func.prevent</a>
+            <a href="http://www.baidu.com" @click="showAge1">
+                阻止默认事件
+            </a>
+            <a href="http://www.baidu.com" @click.prevent="showAge2">
+                func.prevent
+            </a>
         </div>
         <!--? 阻止事件冒泡 -->
         <div class="box">
@@ -619,8 +604,13 @@ Vue有两种数据绑定的方式。
                 <button @click="showAge3">阻止事件冒泡</button>
             </div>
             <div @click="showAge4">
-                <button @click.stop="showAge4">func.stop</button>
-                <a href="http://www.baidu.com" @click.prevent.stop="showAge4">可以叠加</a>
+                <button @click.stop="showAge4">
+                    func.stop
+                </button>
+                <a href="http://www.baidu.com" 
+                   @click.prevent.stop="showAge4">
+                    可以叠加
+                </a>
             </div>
         </div>
         <!--? 事件只触发一次 -->
@@ -642,7 +632,9 @@ Vue有两种数据绑定的方式。
         <!--? 只有event.target是当前操作的元素时才触发事件 -->
         <div class="box">
             <div @click.self="showAge9">
-                <button @click="showAge9">只有event.target是当前操作的元素时才触发事件</button>
+                <button @click="showAge9">
+                    只有event.target是当前操作的元素时才触发事件
+                </button>
             </div>
         </div>
         <!--? 时间的默认行为会立即执行，无需等待事件回调执行完毕 -->
@@ -731,14 +723,14 @@ Vue有两种数据绑定的方式。
 
 #### summary：
 
-Vue中的事件修饰符：
+Vue 中的事件修饰符：
 
-1. .prevent：阻止默认事件。
-2. .stop：阻止事件冒泡。
-3. .once：事件只触发一次。
-4. .capture：使用事件的捕获模式。
-5. .self：只有event.target为当前操作元素时才会触发事件。
-6. .passive：事件的默认行为会立即执行，无需等待事件回调执行完毕。
+1. .prevent ：阻止默认事件。
+2. .stop ：阻止事件冒泡。
+3. .once ：事件只触发一次。
+4. .capture ：使用事件的捕获模式。
+5. .self ：只有 event.target 为当前操作元素时才会触发事件。
+6. .passive ：事件的默认行为会立即执行，无需等待事件回调执行完毕。
 
 ### 1.8.3 键盘事件
 
@@ -754,18 +746,19 @@ Vue中的事件修饰符：
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
     <!--! 容器 -->
     <div id="root">
         <h1>hello {{name}}，{{age}}</h1>
-        <input type="text" @keyup="showVal1" placeholder="按下回车提示输入">
-        <input type="text" @keyup.enter="showVal2" placeholder="按下回车提示输入">
-        <input type="text" @keyup.13="showVal2" placeholder="按下回车提示输入">
-        <input type="text" @keyup.huiche="showVal2" placeholder="按下回车提示输入">
-        <input type="text" @keyup.ctrl.c="showVal2" placeholder="按下ctrl+c提示输入">
+        <input type="text" @keyup="showVal1" placeholder="按回车显示">
+        <input type="text" @keyup.enter="showVal2" placeholder="按回车显示">
+        <input type="text" @keyup.13="showVal2" placeholder="按回车显示">
+        <input type="text" @keyup.huiche="showVal2" placeholder="按回车显示">
+        <input type="text" @keyup.ctrl.c="showVal2" placeholder="按下 ctrl + c 提示输入">
     </div>
 </body>
 
@@ -818,15 +811,14 @@ Vue中的事件修饰符：
 
    ​		右：right
 
-2. Vue未提供别名的按键，可以使用原始的key值（如CapsLock）去绑定，但注意要转换为kebab-case形式（如caps-lock）。
+2. Vue 未提供别名的按键，可以使用原始的 key 值（如 CapsLock ）去绑定，但注意要转换为 kebab-case 形式（如 caps-lock ）。
 
 3. 系统修饰键（用法特殊）：ctrl、alt、shift、meta
 
-   ​		a. 配合keyup使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才会被触发。
+   1. 配合 keyup 使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才会被触发。
+   2. 配合 keydown 使用：正常触发事件。
 
-   ​		b. 配合keydown使用：正常触发事件。
-
-4. 可以使用keyCode去指定具体的按键，但keyCode要被移除，故不推荐。
+4. 可以使用 keyCode 去指定具体的按键，但 keyCode 要被移除，故不推荐。
 
 5. Vue.config.keyCodes.自定义键名 = 键码，可以自定义按键别名。
 
@@ -846,7 +838,8 @@ Vue中的事件修饰符：
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
@@ -854,11 +847,11 @@ Vue中的事件修饰符：
     <div id="root">
         <input type="text" v-model="name"><br />
         <input type="text" v-model="age"><br />
-        <h1>{{helloWord}}</h1><br />
-        <h1>{{helloWord}}</h1><br />
-        <h1>{{helloWord}}</h1><br />
-        <h1>{{helloWord}}</h1><br />
-        <h1>{{helloWord}}</h1><br />
+        <h1>{{ helloWord }}</h1><br />
+        <h1>{{ helloWord }}</h1><br />
+        <h1>{{ helloWord }}</h1><br />
+        <h1>{{ helloWord }}</h1><br />
+        <h1>{{ helloWord }}</h1><br />
     </div>
 </body>
 
@@ -903,22 +896,14 @@ Vue中的事件修饰符：
 ### summary：
 
 1. 定义：要用的属性不存在，要通过已有属性计算得来。
-
-2. 原理：底层借助了Object.defineProperty方法提供的getter和setter。
-
-3. get函数什么时候执行：
-
-   ​		a. 初次读取时会执行一次，有缓存。
-
-   ​		b. 当依赖的数据发生改变时会被再次调用。
-
-4. 优点：与methods相比，内部有缓存机制，可以被复用，效率更高，调试方便。
-
+2. 原理：底层借助了 Object.defineProperty 方法提供的 getter 和 setter 。
+3. get 函数什么时候执行：
+   1. 初次读取时会执行一次，有缓存。
+   2. 当依赖的数据发生改变时会被再次调用。
+4. 优点：与 methods 相比，内部有缓存机制，可以被复用，效率更高，调试方便。
 5. tips：
-
-   ​		a. 计算属性最终会出现在vm上，直接读取使用即可。
-
-   ​		b. 如果计算属性要被修改，那必须写set函数去相应修改，且set中要引起计算时依赖的数据发生改变。
+   1. 计算属性最终会出现在 Vm 上，直接读取使用即可。
+   2. 如果计算属性要被修改，那必须写 set 函数去相应修改，且 set 中要引起计算时依赖的数据发生改变。
 
 ------
 
@@ -938,7 +923,8 @@ Vue中的事件修饰符：
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <!--! 引入vue -->
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+        </script>
     </head>
 
     <body>
@@ -1008,17 +994,13 @@ Vue中的事件修饰符：
 
 #### summary：
 
-监听属性watch：
+监听属性 watch ：
 
-1. 当被监听的属性发生变化时，回调函数handler自动被调用，进行相关操作。
-
-2. 监视的属性必须存在才能被监视，可以是data里的属性，也可以是computed里计算出来的属性。
-
+1. 当被监听的属性发生变化时，回调函数 handler 自动被调用，进行相关操作。
+2. 监视的属性必须存在才能被监视，可以是 data 里的属性，也可以是 computed 里计算出来的属性。
 3. 监视的两种写法：
-
-   ​		a. new Vue时传入watch配置。
-
-   ​		b. 通过vm.$watch监视。
+   1. new Vue 时传入 watch 配置。
+   2. 通过 Vm.$watch 监视。
 
 ### 1.10.2 深度监视
 
@@ -1034,19 +1016,23 @@ Vue中的事件修饰符：
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <!--! 引入vue -->
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+        </script>
     </head>
 
     <body>
         <!--! 容器 -->
         <div id="root">
-            <h1>今天天气很{{weather}}</h1>
+            <h1>今天天气很{{ weather }}</h1>
             <button @click="handleChangeWeather">切换天气</button>
-            <h1>a的值为：{{numbers.a}}</h1>
+            
+            <h1>a的值为：{{ numbers.a }}</h1>
             <button @click="addA">点击a++</button>
-            <h1>b的值为：{{numbers.b}}</h1>
+            
+            <h1>b的值为：{{ numbers.b }}</h1>
             <button @click="addB">点击b++</button>
-            <h1>e的值为：{{numbers.c.d.e}}</h1>
+            
+            <h1>e的值为：{{ numbers.c.d.e }}</h1>
             <button @click="addE">点击e++</button>
         </div>
     </body>
@@ -1128,16 +1114,11 @@ Vue中的事件修饰符：
 #### summary：
 
 1. 深度监视：
-
-   ​		a. Vue中的watch默认不监测对象内部值得改变，只监视一层。
-
-   ​		b. 配置deep：true可以监测对象内部值得改变，监视多层。
-
+   1. Vue中的watch默认不监测对象内部值得改变，只监视一层。
+   2. 配置 deep : true 可以监测对象内部值得改变，监视多层。
 2. tips：
-
-   ​		a. Vue自身可以监测对象内部值得改变，但Vue提供得watch默认不监测。
-
-   ​		b. 使用watch时根据具体的数据结构，决定是否采用深度监视。
+   1. Vue自身可以监测对象内部值得改变，但 Vue 提供得 watch 默认不监测。
+   2. 使用 watch 时根据具体的数据结构，决定是否采用深度监视。
 
 ------
 
@@ -1155,15 +1136,16 @@ Vue中的事件修饰符：
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
 </head>
 
 <body>
     <!--! 容器 -->
     <div id="root">
-        <input type="text" v-model="name"><br />
-        <input type="text" v-model="age"><br />
-        <h1>{{helloWord}}</h1>
+        <input type="text" v-model="name"> <br />
+        <input type="text" v-model="age"> <br />
+        <h1>{{ helloWord }}</h1>
     </div>
 </body>
 
@@ -1184,7 +1166,7 @@ Vue中的事件修饰符：
                 this.helloWord = `hello ${newVal}，${this.age}`
             },
             age(newVal) {
-                setTimeout(() => {
+                setTimeout( ( ) => {
                     this.helloWord = `hello ${this.name}，${newVal}`
                 }, 1000)
             }
@@ -1197,17 +1179,12 @@ Vue中的事件修饰符：
 
 ### summary：
 
-1. watch与computed之间的区别：
-
-   ​		a. computed能完成的功能，watch都能完成。
-
-   ​		b. watch能完成的功能，computed不一定能完成，比如watch可以进行异步操作。
-
+1. watch 与 computed 之间的区别：
+   1. computed 能完成的功能，watch 都能完成。
+   2. watch 能完成的功能，computed 不一定能完成，比如 watch 可以进行异步操作。
 2. tips：
-
-   ​		a. 所被Vue管理的函数，最好写成普通函数，这样this的指向才会是vm或组件实例对象。
-
-   ​		b. 所不被Vue管理的函数，如定时器的回调、ajax的回调、Promise的回调等等，最好写成箭头函数，这样的this指向才会是vm或组件实例对象。
+   1. 所被 Vue 管理的函数，最好写成普通函数，这样 this 的指向才会是 Vm 或组件实例对象。
+   2. 所不被 Vue 管理的函数，如定时器的回调、ajax 的回调、Promise 的回调等等，最好写成箭头函数，这样的 this 指向才会是 Vm 或组件实例对象。
 
 ------
 
@@ -1225,7 +1202,8 @@ Vue中的事件修饰符：
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--! 引入vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">
+    </script>
     <style>
         .box {
             display: flex;
@@ -1262,7 +1240,9 @@ Vue中的事件修饰符：
     <div id="root">
         <!--? 绑定class样式 -->
         <!-- 字符串写法：适用于样式的类目不确定 -->
-        <div class="box" :class="oneClass" @click="handleChangeClass">{{name}}</div>
+        <div class="box" :class="oneClass" @click="handleChangeClass">
+            {{name}}
+        </div>
         <!-- 数组写法：适用于样式的个数不确定，名字也不确定 -->
         <div class="box" :class="classArr">{{name}}</div>
         <!-- 对象写法：适用于要绑定的样式个数确定，名字也确定 -->
@@ -1319,21 +1299,14 @@ Vue中的事件修饰符：
 
 ### summary：
 
-1. class样式
+1. class 样式【 :class = " xxx "】，xxx 可以为字符串、对象、数组。
+1. 字符串写法适用于：类名不确定，需动态获取。
+   2. 对象写法适用于：要绑定多个样式，个数不确定，名字也不确定。
+3. 数组写法适用于：要绑定多个样式，个数确定，但不确定用不用。
+2. style 样式
 
-   ​		写法 ：: class = " xxx "，xxx可以为字符串、对象、数组。
-
-   ​				字符串写法适用于：类名不确定，需动态获取。
-
-   ​				对象写法适用于：要绑定多个样式，个数不确定，名字也不确定。
-
-   ​				数组写法适用于：要绑定多个样式，个数确定，但不确定用不用。
-
-2. style样式
-
-   ​		: style = " { fontSize : xxx } "，其中xxx为动态值。
-
-   ​		: style = " [ a, b ] "，其中a、b为样式对象。
+   1. : style = " { fontSize : xxx } "，其中 xxx 为动态值。
+   2. : style = " [ a, b ] "，其中a、b 为样式对象。
 
 ------
 
@@ -1356,7 +1329,6 @@ Vue中的事件修饰符：
         * {
             margin: 20px;
         }
-
         .box {
             display: flex;
         }
@@ -1368,13 +1340,13 @@ Vue中的事件修饰符：
     <div id="root">
         <!--? 使用v-show做条件渲染 -->
         <!-- dom节点一直存在，转换频率高使用v-show -->
-        <h1 v-show="true">hello {{name}},{{age+1}}</h1>
+        <h1 v-show="true">hello {{ name }},{{ age+1 }}</h1>
         <!--? 使用v-if做条件渲染 -->
         <!-- dom节点不存在，转换频率低使用v-if -->
-        <h1 v-if="true">hello {{name}},{{age+1}}</h1>
+        <h1 v-if="true">hello {{ name }},{{ age+1 }}</h1>
 
         <div class="box">
-            <button @click="n++">点击n++，n={{n}}</button>
+            <button @click="n++">点击n++，n={{ n }}</button>
             <div v-show="n===1">Angular</div>
             <div v-show="n===2">React</div>
             <div v-show="n===3">Vue</div>
@@ -1418,25 +1390,23 @@ Vue中的事件修饰符：
 
 1. v-if：
 
-   ​		写法：v-if = " 表达式 "
+   1. 写法：v-if = " 表达式 "
 
-   ​				  v-else-if = " 表达式 "
+      ​		v-else-if = " 表达式 "
 
-   ​				  v-else
+      ​		v-else
 
-   ​		适用于：切换频率较低的场景。
+   2. 适用于：切换频率较低的场景。
 
-   ​		特点：不展示的dom元素直接被移除。
+   3. 特点：不展示的dom元素直接被移除。
 
-   ​		tips：v-if 可以和 v-else-if 、v-else 一起使用，但要求结构不能被“打断”。
+   4. tips：v-if 可以和 v-else-if 、v-else 一起使用，但要求结构不能被“打断”。
 
 2. v-show：
 
-   ​		写法：v-show = " 表达式 "
-
-   ​		适用于：切换频率较高的场景。
-
-   ​		特点：不展示的dom元素不会被移除，仅仅是样式被隐藏。
+   1. 写法：v-show = " 表达式 "
+   2. 适用于：切换频率较高的场景。
+   3. 特点：不展示的dom元素不会被移除，仅仅是样式被隐藏。
 
 3. tips：使用 v-if 时，dom可能无法被获取，但使用 v-show 一定可以获取到。
 
@@ -1465,7 +1435,6 @@ Vue中的事件修饰符：
             padding: 0;
             box-sizing: border-box;
         }
-
         ul {
             display: flex;
             flex-direction: column;
@@ -1474,7 +1443,6 @@ Vue中的事件修饰符：
             width: 200px;
             background-color: brown;
         }
-
         li {
             display: flex;
             flex-direction: column;
@@ -1691,27 +1659,20 @@ tips：若不写key，Vue默认index为key。
 
 2. 对比原则：
 
-   ​		(1). 旧虚拟dom中找到了与新虚拟dom相同的key：
-
-   ​				a. 若虚拟dom中内容没变，则直接使用之前的真实dom；
-
-   ​				b. 若虚拟dom中内容变了，则生成新的真实dom，随后替换掉页面中之前的真实dom。
-
-   ​		(2). 旧虚拟dom中未找到与新虚拟dom相同的key：
-
-   ​				创建新的真实dom，随后渲染到页面上。
+   1. 旧虚拟dom中找到了与新虚拟dom相同的key：
+      1. 若虚拟dom中内容没变，则直接使用之前的真实dom；
+      2. 若虚拟dom中内容变了，则生成新的真实dom，随后替换掉页面中之前的真实dom。
+   2. 旧虚拟dom中未找到与新虚拟dom相同的key：创建新的真实dom，随后渲染到页面上。
 
 3. 用index作为key可能会引发的问题：
 
-   ​		a. 若对数据进行逆序添加、逆序删除等破坏顺序的操作，会产生没有必要的真实dom更新，虽界面效果没有问题，但效率低。
-
-   ​		b. 如果结构中还包含了输入类的dom，会产生错误dom更新，界面会出现问题。
+   1. 若对数据进行逆序添加、逆序删除等破坏顺序的操作，会产生没有必要的真实dom更新，虽界面效果没有问题，但效率低。
+   2. 如果结构中还包含了输入类的dom，会产生错误dom更新，界面会出现问题。
 
 4. 开发中如何选择key：
 
-   ​		a. 最好使用每条数据的唯一标识作为key，比如id、手机号、身份证号、学号等唯一值。
-
-   ​		b. 如果不存在对数据的逆序添加、逆序删除等破坏顺序的操作，仅用于渲染列表和展示，可以使用index来作为key。
+   1. 最好使用每条数据的唯一标识作为key，比如id、手机号、身份证号、学号等唯一值。
+   2. 如果不存在对数据的逆序添加、逆序删除等破坏顺序的操作，仅用于渲染列表和展示，可以使用index来作为key。
 
 ### 1.14.3 列表过滤
 
@@ -2172,25 +2133,22 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 2. 如何监测对象中的数据：通过setter实现监视，且要在new Vue时就传入要监测的数据。
 
-   ​		a. 对象中后追加的属性，Vue默认不做响应式处理。
-
-   ​		b. 如需给后添加的属性做响应式，则使用：
-
-   ​				Vue.set ( target , propertyName / index , value ) 或
-
-   ​				vm.$set ( target , propertyName / index , value ) 
-
+   1. 对象中后追加的属性，Vue默认不做响应式处理。
+2. 如需给后添加的属性做响应式，则使用：
+   
+​				Vue.set ( target , propertyName / index , value ) 或
+   
+​				vm.$set ( target , propertyName / index , value ) 
+   
 3. 如何监测数组中的数据：通过包裹数组更新元素的方法实现，本质做了两件事情：
 
-   ​		a. 调用原生对应的方法对数组进行更新。
-
-   ​		b. 重新解析模板，更新页面。
+   1. 调用原生对应的方法对数组进行更新。
+   2. 重新解析模板，更新页面。
 
 4. 在Vue修改数组中的某个元素一定要用如下方法：
 
-   ​		a. 使用这些Api：push( )、pop( )、shift( )、unshift( )、splice( )、sort( )、reverse( )。
-
-   ​		b. 使用Vue.set( ) 或 vm.$set( )。
+   1. 使用这些Api：push( )、pop( )、shift( )、unshift( )、splice( )、sort( )、reverse( )。
+   2. 使用Vue.set( ) 或 vm.$set( )。
 
 5. tips：Vue.set( ) 和 vm.$set( ) 不能给vm或vm的根数据对象添加属性！！！
 
@@ -2303,26 +2261,16 @@ shortcoming：只能监视一层，无法监视多级结构。
 ### summary：
 
 1. 若 <input type='text'>，则 v-model 收集的是 value 值，用户输入的就是 value 值。
-
 2. 若<input type='radio'>，则 v-model 收集的是 value 值，且要给标签配置 value 值。
-
-3. 若<input type='chaeckbox'>：
-
-   ​		(1). 没有配置 input 的 value 值，那么收集的就是 checked 状态。
-
-   ​		(2). 配置了 input 的 value 值：
-
-   ​				a. v-model 的初始值是数组，那么收集的就是 value 组成的数组。
-
-   ​				b. v-model 的初始值是非数组，那么收集的就是 checked 状态。
-
+3. 若<input type='chaeckbox'> ：
+1. 没有配置 input 的 value 值，那么收集的就是 checked 状态。
+   2. 配置了 input 的 value 值：
+   1. v-model 的初始值是数组，那么收集的就是 value 组成的数组。
+      2. v-model 的初始值是非数组，那么收集的就是 checked 状态。
 4. v-model 三个修饰符：
-
-   ​		(1). lazy：失去焦点再收集数据。
-
-   ​		(2).number：输入字符串转换为数字。
-
-   ​		(3). trim：删除首位空格。
+   1. lazy：失去焦点再收集数据。
+   2. number：输入字符串转换为数字。
+   3. trim：删除首位空格。
 
 ------
 
@@ -2413,15 +2361,13 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 2. 语法：
 
-   ​		(1). 注册过滤器：Vue.filter( name, callback ) 或 new Vue( filters: { } )。
-
-   ​		(2). 使用过滤器：{{ xxx | filterName }} 或 v-bind:attribute = ' xxx | filterName '
-
+   1. 注册过滤器：Vue.filter( name, callback ) 或 new Vue( filters: { } )。
+2. 使用过滤器：{{ xxx | filterName }} 或 v-bind:attribute = ' xxx | filterName '
+   
 3. tips：
 
-   ​		(1). 过滤器也可以接受额外参数，多个过滤器可以串联。
-
-   ​		(2). 并没有改变原本的数据，是产生新的对应的数据。
+   1. 过滤器也可以接受额外参数，多个过滤器可以串联。
+   2. 并没有改变原本的数据，是产生新的对应的数据。
 
 ------
 
@@ -2524,18 +2470,12 @@ shortcoming：只能监视一层，无法监视多级结构。
 #### summary：
 
 1. 作用：向指定节点中渲染包含 html 结构的内容。
-
 2. 与插值语法区别：
-
-   ​		(1) v-html 会替换掉节点中所有的内容，插值语法不会。
-
-   ​		(2) v-html 可以识别 html 结构。
-
+1. v-html 会替换掉节点中所有的内容，插值语法不会。
+   2. v-html 可以识别 html 结构。
 3. 严重注意：v-html有安全性问题！！！
-
-   ​		(1) 在网站上动态渲染任意 html 是非常危险的，容易导致XSS攻击。
-
-   ​		(2) 一定要在可信的内容上使用 v-html，永远不要用在用户提交的内容上。
+   1. 在网站上动态渲染任意 html 是非常危险的，容易导致XSS攻击。
+   2. 一定要在可信的内容上使用 v-html，永远不要用在用户提交的内容上。
 
 ### 1.17.3 v-clock指令
 
@@ -2777,24 +2717,15 @@ shortcoming：只能监视一层，无法监视多级结构。
 ### summary：
 
 1. 定义语法：
-
-   ​		(1) 局部指令：directives: { name: obj } 或 directives( ){ }。
-
-   ​		(2) 全局指令：Vue.directive( name, obj / function )。
-
+1. 局部指令：directives: { name: obj } 或 directives( ){ }。
+   2. 全局指令：Vue.directive( name, obj / function )。
 2. 配置对象中常用的三个回调：
-
-   ​		(1) bind：指令与元素成功绑定时调用。
-
-   ​		(2) inserted：指令所在元素被插入页面时调用。
-
-   ​		(3) update：指令所在模板结构被重新解析时调用。
-
+   1. bind：指令与元素成功绑定时调用。
+   2. inserted：指令所在元素被插入页面时调用。
+   3. update：指令所在模板结构被重新解析时调用。
 3. tips：
-
-   ​		(1) 指令定义时不加 " v- "，但使用时要加。
-
-   ​		(2) 指令名如果是多个单词，要使用kakab-case方式，不要用camelCase命名。
+   1. 指令定义时不加 " v- "，但使用时要加。
+   2. 指令名如果是多个单词，要使用kakab-case方式，不要用camelCase命名。
 
 ------
 
@@ -3025,27 +2956,22 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 1. Vue中使用组件的三大步骤：
 
-   ​		(1) 定义组件
-
-   ​		(2) 注册组件
-
-   ​		(3) 使用组件
+   1. 定义组件
+2. 注册组件
+   3. 使用组件
 
 2. 如何定义组件：
 
    ​		使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options几乎一样，但也有点不同。区别如下：
 
-   ​		(1) 不能写el，因为最终所有组件都要经过vm管理，由vm中的el决定服务于哪个容器。
-
-   ​		(2) data必须写成函数，因为避免组件被复用时，数据存在引用关系。
-
-   ​		tips：使用template配置组件结构。
+   1. 不能写el，因为最终所有组件都要经过vm管理，由vm中的el决定服务于哪个容器。
+   2. data必须写成函数，因为避免组件被复用时，数据存在引用关系。
+   3. tips：使用template配置组件结构。
 
 3. 如何注册组件：
 
-   ​		(1) 局部注册：靠new Vue的时候传入components选项。
-
-   ​		(2) 全局注册：靠Vue.component('组件名', 组件)
+   1. 局部注册：靠new Vue的时候传入components选项。
+   2. 全局注册：靠Vue.component('组件名', 组件)
 
 4. 编写组件标签：
 
@@ -3120,29 +3046,20 @@ shortcoming：只能监视一层，无法监视多级结构。
 
 1. 关于组件名：
 
-   ​		(1) 一个单词组成：
-
-   ​				a. 写法一：首字母小写，school。
-
-   ​				b. 写法二：首字母大写，School。
-
-   ​		(2) 多个单词组成：
-
-   ​				写法一：kebab-case命名，my-school。
-
-   ​				写法二：CamelCase命名，MySchool，但需在脚手架环境。
-
-   ​		(3) tips：
-
-   ​				a. 组件名尽可能回避 html 中已有的元素名称，如 h2、H2。
-
-   ​				b. 可以使用name配置项指定组件在Vue Devtools中呈现的名字。
+   1. 一个单词组成：
+   1. 写法一：首字母小写，school。
+      2. 写法二：首字母大写，School。
+2. 多个单词组成：
+      1. 写法一：kebab-case命名，my-school。
+   2. 写法二：CamelCase命名，MySchool，但需在脚手架环境。
+   3. tips：
+   1. 组件名尽可能回避 HTML 中已有的元素名称，如 h2、H2。
+      2. 可以使用name配置项指定组件在Vue Devtools中呈现的名字。
 
 2. 关于组件标签：
 
-   ​		(1) 写法一：<school> </school>
-
-   ​		(2) 写法二：<school/>，在非脚手架环境中，多个<school/>会导致后续组件不能被渲染。
+   1. 写法一：<school> </school>
+   2. 写法二：<school/>，在非脚手架环境中，多个<school/>会导致后续组件不能被渲染。
 
 3. 创建组建的简写方式：
 
@@ -3334,17 +3251,11 @@ shortcoming：只能监视一层，无法监视多级结构。
 ### summary：
 
 1. people组件本质是一个名为VueComponent的构造函数，且不是程序员定义的，是Vue.extend生成的。
-
 2. 我们只需要写<people />或<people> </people>，Vue解析时会帮我们创建people组件的实例对象。
-
 3. 每次调用Vue.extend时，返回的都是一个全新的VueComponent！！！
-
 4. 关于this指向：
-
-   ​		(1) 组件配置中，methods、watch、computed中函数的this都是VueComponent实例对象。
-
-   ​		(2) new Vue(options)配置中，methods、watch、computed中函数的this都是Vue实例对象。
-
+1. 组件配置中，methods、watch、computed中函数的this都是VueComponent实例对象。
+   2. new Vue(options)配置中，methods、watch、computed中函数的this都是Vue实例对象。
 5. VueComponent的实例对象也叫组件实例对象，简称VC，Vue的实例对象简称Vm。
 
 ------
@@ -3681,11 +3592,8 @@ main.js中使用< import Vue from 'vue' >引入的Vue，是阉割版本的Vue，
 ### summary：
 
 1. vue.js与vue.runtime.xxx.js的区别：
-
-   ​		(1) vue.js是完整版的Vue，包含核心功能+模板解析器。
-
-   ​		(2) vue.runtime.xxx.js是运行时的Vue，只包含核心功能，没有模板解析器。
-
+1. vue.js是完整版的Vue，包含核心功能+模板解析器。
+   2. vue.runtime.xxx.js是运行时的Vue，只包含核心功能，没有模板解析器。
 2. 因为vue.runtime.xxx.js没有模板解析器，所以不能使用template配置项，需要使用render函数接收到的createElement函数去指定具体内容。
 
 ------
@@ -3753,14 +3661,10 @@ export default {
 ### summary：
 
 1. 被用来给元素或子组件注册引用信息( id的替代者 )。
-
-2. 应用在html标签上获取的是真实DOM元素，应用在组件标签上是组件实例对象(Vc)。
-
+2. 应用在HTML标签上获取的是真实DOM元素，应用在组件标签上是组件实例对象(Vc)。
 3. 使用方式：
-
-   ​		打标识：<h1 ref="xxx"> hello </h1>
-
-   ​		获取：this.$refs.xxx
+1. 打标识：<h1 ref="xxx"> hello </h1>
+   2. 获取：this.$refs.xxx
 
 ------
 
@@ -3864,11 +3768,10 @@ export default {
 
 2. 写法：
 
-   ​	(1) 父组件传递数据：<Student name="yahoo" :age="23">
-
-   ​	(2) 子组件接收数据：
-
-   ```javascript
+   1. 父组件传递数据：<Student name="yahoo" :age="23">
+2. 子组件接收数据：
+   
+```javascript
    // 方法一：简单声明接收
    props: ['name', 'age'],
    
@@ -3890,7 +3793,7 @@ export default {
        }
    }
    ```
-
+   
 3. tips：
 
    ​		props是只读的，Vue底层会监视你对props的修改，如果进行了修改，就会发出警告。若业务需求确实需要修改，可复制props的内容到data里，然后对data中数据进行修改。
@@ -4025,16 +3928,11 @@ export default {
 ### summary：
 
 1. 功能：可以把多个组件公用的配置提取成一个mixin对象。
-
 2. 使用方式：
-
-   ​		(1) 第一步：定义mixin。
-
-   ​		(2) 第二步：使用mixin。
-
-   ​						a. 全局使用：Vue.mixin( xxx )。
-
-   ​						b. 局部使用：mixins: [ ' xxx ' ]。
+1. 第一步：定义mixin。
+   2. 第二步：使用mixin。
+   1. 全局使用：Vue.mixin( xxx )。
+      2. 局部使用：mixins: [ ' xxx ' ]。
 
 ------
 
@@ -4293,7 +4191,7 @@ export default {
         },
         death () {
             // 销毁Student组件，销毁后自定义事件全部不奏效。
-            this.$destroy()
+            this.$destroy()	
         }
     }
 
@@ -4464,24 +4362,24 @@ button {
 
 3. 使用事件总线：
 
-   ​		(1) 接收数据：A组件接收数据，就在A组件中绑定自定义事件，自定义事件的callback也写在A组件。
+   1. 接收数据：A组件接收数据，就在A组件中绑定自定义事件，自定义事件的callback也写在A组件。
 
-   ```javascript
-   mounted(){
-   	this.$bus.$on('xxx',this.yahu)
-   }
-   methods:{
-       yahu(data){
-           ......
-       }
-   }
-   ```
+      ```javascript
+      mounted(){
+      	this.$bus.$on('xxx',this.yahu)
+      }
+      methods:{
+          yahu(data){
+              ......
+          }
+      }
+      ```
 
-   ​		(2) 提供数据：
+   2. 提供数据：
 
-   ```javascript
-   this.$bus.$on('xxx', data)
-   ```
+      ```javascript
+      this.$bus.$on('xxx', data)
+      ```
 
 4. 最好在A组件的beforeDestroy钩子中，解绑自定义事件。
 
@@ -4593,36 +4491,36 @@ button {
 
 3. 使用步骤：
 
-   ​		(1) 安装pubsub：
+   1. 安装pubsub：
 
-   ```bash
-   npm i pubsub-js
-   ```
+      ```bash
+      npm i pubsub-js
+      ```
 
-   ​		(2) 引入：
+   2. 引入：
 
-   ```javascript
-   import pubsub from 'pubsub-js'
-   ```
+      ```javascript
+      import pubsub from 'pubsub-js'
+      ```
 
-   ​		(3) 接收数据：A组件想要接收数据，就在A组件中订阅消息，订阅的callback写在A组件。
+   3. 接收数据：A组件想要接收数据，就在A组件中订阅消息，订阅的callback写在A组件。
 
-   ```javascript
-   mounted(){
-       this.pubId = pubsub.subscribe('hello', this.yahu)
-   },
-   methods:{
-       yahu(data){
-           ......
-       }
-   }
-   ```
+      ```javascript
+      mounted(){
+          this.pubId = pubsub.subscribe('hello', this.yahu)
+      },
+      methods:{
+          yahu(data){
+              ......
+          }
+      }
+      ```
 
-   ​		(4) 提供数据：
+   4. 提供数据：
 
-   ```javascript
-   pubsub.publish('hello',data)
-   ```
+      ```javascript
+      pubsub.publish('hello',data)
+      ```
 
 4. 最好在beforeDestroy钩子中取消订阅：
 
@@ -4770,22 +4668,15 @@ h2 {
 
 3. 类名：
 
-   ​		(1) 元素进入的样式类名：
-
-   ​				a. v-enter：进入的起点。
-
-   ​				b. v-enter-active：进入过程中。
-
-   ​				c. v-enter-to：进入的终点。
-
-   ​		(2) 元素离开的样式类名：
-
-   ​				a. v-leave：离开的起点。
-
-   ​				b. v-leave-active：离开过程中。
-
-   ​				c. v-leave-to：离开的终点。
-
+   1. 元素进入的样式类名：
+   1. v-enter：进入的起点。
+      2. v-enter-active：进入过程中。
+   3. v-enter-to：进入的终点。
+   2. 元素离开的样式类名：
+   1. v-leave：离开的起点。
+      2. v-leave-active：离开过程中。
+   3. v-leave-to：离开的终点。
+   
 4. 使用<transition>标签包裹要过渡的元素，并配置name属性。
 
    ```html
@@ -4887,18 +4778,12 @@ export default {
 ### summary：
 
 1. 方式一：
-
-   ​		优点：配置简单，请求资源时直接发给前端8080即可。
-
-   ​		缺点：不能配置多个代理，不能灵活控制请求是否走代理。
-
-   ​		工作方式：当请求了前端不存在的资源时，才会请求服务器，优先匹配前端资源。
-
+1. 优点：配置简单，请求资源时直接发给前端8080即可。
+   2. 缺点：不能配置多个代理，不能灵活控制请求是否走代理。
+3. 工作方式：当请求了前端不存在的资源时，才会请求服务器，优先匹配前端资源。
 2. 方式二：
-
-   ​		优点：可以配置多个代理，并且可以灵活控制请求是否走代理。
-
-   ​		缺点：配置略微繁琐，请求时必须加前缀。
+   1. 优点：可以配置多个代理，并且可以灵活控制请求是否走代理。
+   2. 缺点：配置略微繁琐，请求时必须加前缀。
 
 ------
 
@@ -5272,58 +5157,60 @@ h2 {
 
    3. 作用域插槽：
 
-      ​		应用场景：数据在组件的自身，但根据数据生成的结构需要组件的使用者来决定。
+      1. 应用场景：数据在组件的自身，但根据数据生成的结构需要组件的使用者来决定。
 
-      ​		code：
+      2. code：
 
-      ​				父组件：
+         ​		父组件：
 
-      ```html
-      <Son>
-          <template scope="yahu">
-              <ul>
-                  <li v-for="(item, index) in yahu.yahoo" :key="index">
-                      {{ item }}
-                  </li>
-              </ul>
-          </template>
-      </Son>
-      
-      <Son>
-          <template scope="yahoo">
-              <i v-for="(item, index) in yahoo.yahoo" :key="index">
-                  {{ item }}
-              </i>
-          </template>
-      </Son>
-      
-      <Son>
-          <template scope="{ yahoo }">
-              <b v-for="(item, index) in yahoo" :key="index">
-                  {{ item }}
-              </b>
-          </template>
-      </Son>
-      ```
+         ```html
+         <Son>
+             <template scope="yahu">
+                 <ul>
+                     <li v-for="(item, index) in yahu.yahoo" :key="index">
+                         {{ item }}
+                     </li>
+                 </ul>
+             </template>
+         </Son>
+         
+         <Son>
+             <template scope="yahoo">
+                 <i v-for="(item, index) in yahoo.yahoo" :key="index">
+                     {{ item }}
+                 </i>
+             </template>
+         </Son>
+         
+         <Son>
+             <template scope="{ yahoo }">
+                 <b v-for="(item, index) in yahoo" :key="index">
+                     {{ item }}
+                 </b>
+             </template>
+         </Son>
+         ```
 
-      ​				子组件：
+         ​		子组件：
 
-      ```vue
-      <template>
-          <div>
-              <slot :yahoo="yahoo"> 若没有传值则显示这段文字。 </slot>
-          </div>
-      </template>
-      
-      <script>
-      export default {
-          data () {
-              return {
-                  yahoo: { name: 'yahoo', age: 23, sex: 'boy' },
-              }
-          },
-      }
-      </script>
-      ```
+         ```html
+         <template>
+             <div>
+                 <slot :yahoo="yahoo"> 若没有传值则显示这段文字。 </slot>
+             </div>
+         </template>
+         
+         <script>
+         export default {
+             data () {
+                 return {
+                     yahoo: { name: 'yahoo', age: 23, sex: 'boy' },
+                 }
+             },
+         }
+         </script>
+         ```
+
+         
 
       
