@@ -1,0 +1,43 @@
+<template>
+    <div class="optionsBox">
+        <input type="checkbox" :checked="flag" @change="checkAll" />
+        <div>已完成 {{ completeCount }} / 全部 {{ totalCount }}</div>
+        <button @click="deleteAll">清除已完成</button>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'Options',
+    props: ['completeCount', 'totalCount', 'flag'],
+    methods: {
+        checkAll (e) {
+            this.$emit('checkAll', e.target.checked)
+        },
+        deleteAll () {
+            this.$emit('deleteAll',)
+        }
+    },
+}
+</script>
+
+<style scoped>
+.optionsBox {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: aquamarine;
+}
+input {
+    width: 25px;
+    height: 25px;
+    margin: 0 5%;
+}
+button {
+    width: 15%;
+    height: 35px;
+    margin-left: 40%;
+}
+</style>
